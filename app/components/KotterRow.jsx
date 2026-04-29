@@ -3,19 +3,19 @@
 import { useEffect, useRef } from 'react';
 
 const STEPS = [
-  { num: 1, label: 'Urgency' },
-  { num: 2, label: 'Coalition' },
-  { num: 3, label: 'Vision' },
-  { num: 4, label: 'Enlist' },
-  { num: 5, label: 'Enable' },
-  { num: 6, label: 'Wins' },
-  { num: 7, label: 'Sustain' },
-  { num: 8, label: 'Institute' },
+  { num: 1, label: 'Create a Sense of Urgency' },
+  { num: 2, label: 'Build a Guiding Coalition' },
+  { num: 3, label: 'Form a Strategic Vision' },
+  { num: 4, label: 'Enlist a Volunteer Army' },
+  { num: 5, label: 'Enable Action by Removing Barriers' },
+  { num: 6, label: 'Generate Short-Term Wins' },
+  { num: 7, label: 'Sustain Acceleration' },
+  { num: 8, label: 'Institute Change' },
 ];
 
 // Visual layout constants (must match CSS `.kotter-step` width)
-const STEP_WIDTH = 140;
-const ZOOM_SCALE = 1.9;
+const STEP_WIDTH = 150;
+const ZOOM_SCALE = 1.45;
 
 function getStepOffset(step) {
   // Row center sits between step 4 and step 5.
@@ -47,7 +47,9 @@ export default function KotterRow({ activeStep }) {
     rowRef.current.style.transform = `translate(${tx}px, 0) scale(${ZOOM_SCALE})`;
   }, [activeStep]);
 
-  const stageClass = activeStep !== null ? 'kotter-row-stage active' : 'kotter-row-stage';
+  let stageClass = 'kotter-row-stage';
+  if (activeStep !== null) stageClass += ' active';
+  if (activeStep === 0) stageClass += ' is-overview';
 
   return (
     <div className={stageClass}>
@@ -61,10 +63,10 @@ export default function KotterRow({ activeStep }) {
           }
           return (
             <div key={num} className={`kotter-step ${stateClass}`}>
+              <div className="step-name">{label}</div>
               <div className="step-circle">
                 {String(num).padStart(2, '0')}
               </div>
-              <div className="step-name">{label}</div>
             </div>
           );
         })}

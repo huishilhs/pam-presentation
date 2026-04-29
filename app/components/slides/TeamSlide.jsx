@@ -2,7 +2,6 @@ const TEAM = [
   { first: 'Cecilia', last: 'Urrutia Martinez', tone: 'blue',   img: '/team/cecilia.jpg', initials: 'CU' },
   { first: 'Huishi',  last: 'Li',                tone: 'green',  img: '/team/huishi.jpg',  initials: 'HL' },
   { first: 'Eklavya', last: 'Gupta',             tone: 'red',    img: '/team/eklavya.jpg', initials: 'EG' },
-  { first: 'Oliver',  last: 'Ulvebne',           tone: 'purple', img: '/team/oliver.jpg',  initials: 'OU' },
 ];
 
 export default function TeamSlide() {
