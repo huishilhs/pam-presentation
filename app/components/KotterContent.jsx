@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 /**
  * KotterContent renders the content panel for an active Kotter step.
  * All 8 step panels live in this file — scroll to find the one you
@@ -12,22 +14,120 @@ export default function KotterContent({ activeStep, activeVariant }) {
 
   return (
     <div className={className}>
-      {activeStep === 1 && <UrgencyContent />}
+      {activeStep === 1 && <UrgencyContent variant={activeVariant} />}
       {activeStep === 2 && <CoalitionContent variant={activeVariant} />}
       {activeStep === 3 && <VisionContent variant={activeVariant} />}
       {activeStep === 4 && <EnlistContent />}
       {activeStep === 5 && <EnableContent variant={activeVariant} />}
       {activeStep === 6 && <WinsContent variant={activeVariant} />}
       {activeStep === 7 && <SustainContent variant={activeVariant} />}
-      {activeStep === 8 && <InstituteContent />}
+      {activeStep === 8 && <InstituteContent variant={activeVariant} />}
     </div>
+  );
+}
+
+// =====================================================
+// 7-S DIAGRAM (used by Step 1)
+// =====================================================
+const SEVEN_S_NODES = [
+  { id: 'strategy', label: 'Strategy', cx: 200, cy: 50,  flagged: true },
+  { id: 'structure', label: 'Structure', cx: 330, cy: 130, flagged: true },
+  { id: 'systems', label: 'Systems', cx: 330, cy: 270, flagged: true },
+  { id: 'staff', label: 'Staff', cx: 200, cy: 350, flagged: false },
+  { id: 'style', label: 'Style', cx: 70,  cy: 270, flagged: false },
+  { id: 'skills', label: 'Skills', cx: 70,  cy: 130, flagged: false },
+  { id: 'shared', label: 'Shared Values', cx: 200, cy: 200, flagged: false, center: true },
+];
+
+function SevenSDiagram() {
+  const lines = [];
+  for (let i = 0; i < SEVEN_S_NODES.length; i++) {
+    for (let j = i + 1; j < SEVEN_S_NODES.length; j++) {
+      const a = SEVEN_S_NODES[i];
+      const b = SEVEN_S_NODES[j];
+      lines.push({ key: `${a.id}-${b.id}`, x1: a.cx, y1: a.cy, x2: b.cx, y2: b.cy });
+    }
+  }
+
+  return (
+    <svg viewBox="-20 -20 480 420" className="seven-s-svg">
+      {lines.map((l) => (
+        <line
+          key={l.key}
+          x1={l.x1}
+          y1={l.y1}
+          x2={l.x2}
+          y2={l.y2}
+          stroke="rgba(0, 46, 145, 0.25)"
+          strokeWidth="1.5"
+        />
+      ))}
+      {SEVEN_S_NODES.map((n) => {
+        const r = n.center ? 56 : 48;
+        return (
+          <g key={n.id}>
+            {n.flagged && (
+              <circle
+                cx={n.cx}
+                cy={n.cy}
+                r={r + 6}
+                fill="none"
+                stroke="#dc2626"
+                strokeWidth="4"
+              />
+            )}
+            <circle
+              cx={n.cx}
+              cy={n.cy}
+              r={r}
+              fill={n.center ? '#001F66' : '#3a6ea5'}
+              stroke={n.center ? '#001F66' : '#3a6ea5'}
+            />
+            {n.center ? (
+              <>
+                <text
+                  x={n.cx}
+                  y={n.cy - 6}
+                  textAnchor="middle"
+                  className="seven-s-node-label seven-s-node-label-center"
+                >
+                  Shared
+                </text>
+                <text
+                  x={n.cx}
+                  y={n.cy + 14}
+                  textAnchor="middle"
+                  className="seven-s-node-label seven-s-node-label-center"
+                >
+                  Values
+                </text>
+              </>
+            ) : (
+              <text
+                x={n.cx}
+                y={n.cy + 5}
+                textAnchor="middle"
+                className="seven-s-node-label"
+              >
+                {n.label}
+              </text>
+            )}
+          </g>
+        );
+      })}
+    </svg>
   );
 }
 
 // =====================================================
 // STEP 1 · URGENCY
 // =====================================================
-function UrgencyContent() {
+function UrgencyContent({ variant }) {
+  if (variant === 'conclusion') return <UrgencyConclusion />;
+  return <UrgencyAnalysis />;
+}
+
+function UrgencyAnalysis() {
   return (
     <>
       <div className="step-intro">
@@ -41,58 +141,99 @@ function UrgencyContent() {
         </div>
       </div>
 
-      <div className="pg-scale-strip">
-        <div className="pg-scale-stat">
-          <div className="pg-scale-value">$84.3B</div>
-          <div className="pg-scale-label">Annual revenue</div>
+      <div className="seven-s-layout">
+        <div className="seven-s-diagram">
+          <SevenSDiagram />
         </div>
-        <div className="pg-scale-stat">
-          <div className="pg-scale-value">140+</div>
-          <div className="pg-scale-label">Brands</div>
-        </div>
-        <div className="pg-scale-stat">
-          <div className="pg-scale-value">180+</div>
-          <div className="pg-scale-label">Countries</div>
-        </div>
-      </div>
 
-      <div className="step-body step-body-cols-3">
-        <div className="step-card step-card-flagged">
-          <div className="step-card-icon step-card-icon-red">S</div>
-          <div className="step-card-content">
-            <h5>Strategy</h5>
-            <p>
+        <div className="seven-s-cards">
+          <div className="seven-s-card">
+            <div className="seven-s-card-title">Strategy</div>
+            <div className="seven-s-card-detail">
               Integrated Growth Strategy demands superiority in retail
               execution and consumer value. Across 80,000 comments, it
               goes silent at the moment that matters most.
-            </p>
+            </div>
           </div>
-        </div>
-        <div className="step-card step-card-flagged">
-          <div className="step-card-icon step-card-icon-red">S</div>
-          <div className="step-card-content">
-            <h5>Systems</h5>
-            <p>
-              World-class supply chain, optimised inward. 30% of low-rating
-              comments come from post-purchase failures.
-            </p>
-          </div>
-        </div>
-        <div className="step-card step-card-flagged">
-          <div className="step-card-icon step-card-icon-red">S</div>
-          <div className="step-card-content">
-            <h5>Structure</h5>
-            <p>
+          <div className="seven-s-card">
+            <div className="seven-s-card-title">Structure</div>
+            <div className="seven-s-card-detail">
               Built to serve categories, not customer journeys. No single
-              owner of end-to-end experience.
-            </p>
+              owner of the end-to-end consumer experience.
+            </div>
+          </div>
+          <div className="seven-s-card">
+            <div className="seven-s-card-title">Systems</div>
+            <div className="seven-s-card-detail">
+              World-class supply chain — optimised inward. 30% of
+              low-rating comments come from post-purchase failures.
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="inline-stat" style={{ marginTop: '1rem' }}>
-        <strong>80,000 customer comments.</strong> Different products.
-        Same pain points.
+      <div className="inline-stat" style={{ marginTop: '1.2rem' }}>
+        <strong>80,000 customer comments.</strong> Different products,
+        different brands —{' '}
+        <strong>same three S&apos;s breaking every time.</strong>
+      </div>
+    </>
+  );
+}
+
+function UrgencyConclusion() {
+  const [revealed, setRevealed] = useState(0);
+
+  useEffect(() => {
+    const timings = [400, 1700, 3000, 4400, 6000];
+    const timers = timings.map((d, i) =>
+      setTimeout(() => setRevealed(i + 1), d)
+    );
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  const cls = (n) => `urgency-reveal ${revealed >= n ? 'is-shown' : ''}`;
+
+  return (
+    <>
+      <div className="step-intro">
+        <div className="step-intro-number">Step 01 · Urgency</div>
+        <div className="step-intro-heading">A pattern, not an outlier.</div>
+        <div className="step-intro-tagline">
+          The strategy is right. The talent is right. The customer still
+          isn&apos;t reached.
+        </div>
+      </div>
+
+      <div className="urgency-conclusion">
+        <div className={`urgency-line ${cls(1)}`}>
+          Different <strong>products</strong>, different{' '}
+          <strong>brands</strong>, different <strong>regions</strong> —
+        </div>
+        <div className={`urgency-line urgency-line-emphasis ${cls(2)}`}>
+          the very same{' '}
+          <span className="highlight-yellow-bg">pain points</span>{' '}
+          experienced by customers.
+        </div>
+
+        <div className={`urgency-bridge ${cls(3)}`}>
+          <span>The strategy is right.</span>
+          <span className="urgency-bridge-sep">·</span>
+          <span>The talent is right.</span>
+        </div>
+
+        <div className={`urgency-bridge-strong ${cls(4)}`}>
+          But James is still standing in that aisle.
+        </div>
+
+        <div className={`urgency-payoff ${cls(5)}`}>
+          <span className="urgency-payoff-text">
+            So we built someone to stand next to him.
+          </span>
+          <span className="urgency-payoff-mark">
+            Pam<span className="urgency-payoff-plus">+</span>
+          </span>
+        </div>
       </div>
     </>
   );
@@ -104,7 +245,9 @@ function UrgencyContent() {
 function CoalitionContent({ variant }) {
   if (variant === 'culture') return <CoalitionCulture />;
   if (variant === 'stakeholder') return <CoalitionStakeholder />;
-  return <CoalitionPyramid />;
+  const m = variant && variant.match(/^pyramid-(\d+)$/);
+  const visibleCount = m ? Math.min(parseInt(m[1], 10), 5) : 5;
+  return <CoalitionPyramid visibleCount={visibleCount} />;
 }
 
 function CoalitionCulture() {
@@ -209,7 +352,42 @@ function CoalitionStakeholder() {
   );
 }
 
-function CoalitionPyramid() {
+const PYRAMID_TIERS = [
+  {
+    num: '01',
+    label: 'Executive',
+    title: 'COO + CIO',
+    detail: 'Seth Cohen — the only mandate above all five SBUs.',
+  },
+  {
+    num: '02',
+    label: 'Technical',
+    title: 'CEIT & Digital Experiences',
+    detail: 'Integrated with Consumer 360, Connected Experiences, Project Genie.',
+  },
+  {
+    num: '03',
+    label: 'Business',
+    title: 'Five SBU Integration Leads',
+    detail: 'Decision-makers, not observers — adapting Pam to each category.',
+  },
+  {
+    num: '04',
+    label: 'Operational',
+    title: 'Global Business Services',
+    detail:
+      'Consumer contact and data governance — the exact layer where 30% of low-rating comments originated.',
+  },
+  {
+    num: '05',
+    label: 'Implementation',
+    title: 'Pam Core Team',
+    detail:
+      'Programme Manager, Consumer Intelligence Analysts, and Change Agents embedded across every SBU.',
+  },
+];
+
+function CoalitionPyramid({ visibleCount = 5 }) {
   return (
     <>
       <div className="step-intro">
@@ -224,58 +402,16 @@ function CoalitionPyramid() {
       </div>
 
       <div className="coalition-pyramid">
-        <div className="pyramid-tier pyramid-tier-1">
-          <div className="pyramid-tier-num">01</div>
-          <div className="pyramid-tier-content">
-            <div className="pyramid-tier-label">Executive</div>
-            <div className="pyramid-tier-title">COO + CIO</div>
-            <div className="pyramid-tier-detail">
-              Seth Cohen — the only mandate above all five SBUs.
+        {PYRAMID_TIERS.slice(0, visibleCount).map((t, i) => (
+          <div key={t.num} className={`pyramid-tier pyramid-tier-${i + 1}`}>
+            <div className="pyramid-tier-num">{t.num}</div>
+            <div className="pyramid-tier-content">
+              <div className="pyramid-tier-label">{t.label}</div>
+              <div className="pyramid-tier-title">{t.title}</div>
+              <div className="pyramid-tier-detail">{t.detail}</div>
             </div>
           </div>
-        </div>
-        <div className="pyramid-tier pyramid-tier-2">
-          <div className="pyramid-tier-num">02</div>
-          <div className="pyramid-tier-content">
-            <div className="pyramid-tier-label">Technical</div>
-            <div className="pyramid-tier-title">CEIT &amp; Digital Experiences</div>
-            <div className="pyramid-tier-detail">
-              Integrated with Consumer 360, Connected Experiences, Project Genie.
-            </div>
-          </div>
-        </div>
-        <div className="pyramid-tier pyramid-tier-3">
-          <div className="pyramid-tier-num">03</div>
-          <div className="pyramid-tier-content">
-            <div className="pyramid-tier-label">Business</div>
-            <div className="pyramid-tier-title">Five SBU Integration Leads</div>
-            <div className="pyramid-tier-detail">
-              Decision-makers, not observers — adapting Pam to each category.
-            </div>
-          </div>
-        </div>
-        <div className="pyramid-tier pyramid-tier-4">
-          <div className="pyramid-tier-num">04</div>
-          <div className="pyramid-tier-content">
-            <div className="pyramid-tier-label">Operational</div>
-            <div className="pyramid-tier-title">Global Business Services</div>
-            <div className="pyramid-tier-detail">
-              Consumer contact and data governance — the exact layer where 30%
-              of low-rating comments originated.
-            </div>
-          </div>
-        </div>
-        <div className="pyramid-tier pyramid-tier-5">
-          <div className="pyramid-tier-num">05</div>
-          <div className="pyramid-tier-content">
-            <div className="pyramid-tier-label">Implementation</div>
-            <div className="pyramid-tier-title">Pam Core Team</div>
-            <div className="pyramid-tier-detail">
-              Programme Manager, Consumer Intelligence Analysts, and Change
-              Agents embedded across every SBU.
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </>
   );
@@ -295,10 +431,10 @@ function VisionGrowth() {
       <div className="step-intro">
         <div className="step-intro-number">Step 03 · Strategic vision</div>
         <div className="step-intro-heading">
-          The strategic vision Pam represents.
+          The strategic vision Pam+ represents.
         </div>
         <div className="step-intro-tagline">
-          Pam is the fullest expression of P&amp;G&apos;s Integrated
+          Pam+ is the fullest expression of P&amp;G&apos;s Integrated
           Growth Strategy.
         </div>
       </div>
@@ -803,9 +939,66 @@ function EnableFragment() {
 function WinsContent({ variant }) {
   if (variant === 'wbs') return <WinsWbs />;
   if (variant === 'network') return <WinsNetwork />;
-  if (variant === 'critical') return <WinsCritical />;
   if (variant === 'gantt') return <WinsGantt />;
-  return <WinsList />;
+  if (variant === 'momentum') return <WinsMomentum />;
+  const m = variant && variant.match(/^wins-(\d+)$/);
+  const visibleCount = m ? Math.min(parseInt(m[1], 10), 5) : 5;
+  return <WinsList visibleCount={visibleCount} />;
+}
+
+function WinsMomentum() {
+  return (
+    <>
+      <div className="step-intro">
+        <div className="step-intro-number">Step 06 · Momentum</div>
+        <div className="step-intro-heading">
+          Winning early. Winning visibly.
+        </div>
+        <div className="step-intro-tagline">
+          The single force that keeps a transformation alive at rollout.
+        </div>
+      </div>
+
+      <div className="momentum-callout">
+        <div className="momentum-quote">
+          What actually keeps a transformation this size{' '}
+          <span className="highlight-yellow-bg">alive, funded, and moving</span>{' '}
+          — especially at rollout — is <strong>momentum</strong>.
+        </div>
+        <div className="momentum-quote-sub">
+          And momentum in change management comes from one thing and one
+          thing only: <strong>winning early, and winning visibly.</strong>
+        </div>
+      </div>
+
+      <div className="momentum-pillars">
+        <div className="momentum-pillar">
+          <div className="momentum-pillar-num">01</div>
+          <div className="momentum-pillar-title">Alive</div>
+          <div className="momentum-pillar-detail">
+            Stakeholders stay engaged when proof arrives in months, not
+            years.
+          </div>
+        </div>
+        <div className="momentum-pillar">
+          <div className="momentum-pillar-num">02</div>
+          <div className="momentum-pillar-title">Funded</div>
+          <div className="momentum-pillar-detail">
+            Boards renew budget on evidence — not promises. Wins
+            unlock the next tranche.
+          </div>
+        </div>
+        <div className="momentum-pillar">
+          <div className="momentum-pillar-num">03</div>
+          <div className="momentum-pillar-title">Moving</div>
+          <div className="momentum-pillar-detail">
+            Visible progress pulls sceptics in. Each gate proven makes
+            the next one easier to clear.
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 const WBS_PACKAGES = [
@@ -900,68 +1093,6 @@ function WinsNetwork() {
   );
 }
 
-function WinsCritical() {
-  return (
-    <>
-      <div className="step-intro">
-        <div className="step-intro-number">Step 06 · Critical path</div>
-        <div className="step-intro-heading">
-          44 weeks. Zero float.
-        </div>
-        <div className="step-intro-tagline">
-          The exact sequence that, if delayed, slips the entire
-          programme — monitored continuously.
-        </div>
-      </div>
-
-      <div className="critical-stats">
-        <div className="critical-stat">
-          <div className="critical-stat-value">44<span>w</span></div>
-          <div className="critical-stat-label">Critical-path duration</div>
-        </div>
-        <div className="critical-stat">
-          <div className="critical-stat-value">8</div>
-          <div className="critical-stat-label">Critical activities</div>
-        </div>
-        <div className="critical-stat">
-          <div className="critical-stat-value">0<span>w</span></div>
-          <div className="critical-stat-label">Float on critical chain</div>
-        </div>
-        <div className="critical-stat">
-          <div className="critical-stat-value">14<span>d</span></div>
-          <div className="critical-stat-label">PMO review cadence</div>
-        </div>
-      </div>
-
-      <div className="critical-implications">
-        <div className="critical-implication">
-          <div className="critical-implication-num">01</div>
-          <div className="critical-implication-text">
-            <strong>Every gate is enforceable.</strong> No phase begins
-            until its predecessor passes its review.
-          </div>
-        </div>
-        <div className="critical-implication">
-          <div className="critical-implication-num">02</div>
-          <div className="critical-implication-text">
-            <strong>Float buys safety where we have it.</strong>{' '}
-            Non-critical work packages have 2–10w of slack — risk
-            absorbed without slipping launch.
-          </div>
-        </div>
-        <div className="critical-implication">
-          <div className="critical-implication-num">03</div>
-          <div className="critical-implication-text">
-            <strong>Pressure points are known in advance.</strong> Core
-            Feature Development (16w) is the longest critical
-            activity — staffed and de-risked accordingly.
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
 function WinsGantt() {
   const phases = [
     { name: 'Research & Discovery', tone: 'red',    start: 0,  end: 12 },
@@ -1042,7 +1173,40 @@ function WinsGantt() {
   );
 }
 
-function WinsList() {
+const WIN_CARDS = [
+  {
+    when: 'Week 7 · Gate 1',
+    title: 'Pam becomes a programme',
+    detail:
+      'Research complete. Scope locked. Governance live. Board signs off the build budget — proof the coalition works.',
+  },
+  {
+    when: 'Month 5 · Gate 2',
+    title: 'The market says yes',
+    detail:
+      'MOUs signed. Five pilot stores selected. Retailers at the table — real-world commercial support secured.',
+  },
+  {
+    when: 'Month 8 · Gate 3',
+    title: 'The product works',
+    detail:
+      'AR platform built. 500+ P&G SKUs live. A shopper holds up a Gillette — and Pam knows exactly what it is.',
+  },
+  {
+    when: 'Month 13 · Gate 4',
+    title: 'Real consumers say it works',
+    detail:
+      '50 shoppers. Real stores. Think-aloud testing. SUS score ≥ 75 — not just impressive, genuinely easy to use.',
+  },
+  {
+    when: 'Month 18 · Go / No-Go',
+    title: 'The numbers say it works',
+    detail:
+      '+33% conversion · –50% complaint cost · –25% returns · +15 NPS. Hit all four — and we scale.',
+  },
+];
+
+function WinsList({ visibleCount = 5 }) {
   return (
     <>
       <div className="step-intro">
@@ -1056,46 +1220,16 @@ function WinsList() {
       </div>
 
       <div className="wins-horizontal">
-        <div className="win-card">
-          <div className="win-when">Week 7 · Gate 1</div>
-          <div className="win-title">Pam becomes a programme</div>
-          <div className="win-detail">
-            Research complete. Scope locked. Governance live. Board
-            signs off the build budget — proof the coalition works.
+        {WIN_CARDS.map((w, i) => (
+          <div
+            key={w.when}
+            className={`win-card ${i < visibleCount ? 'win-card-visible' : 'win-card-hidden'}`}
+          >
+            <div className="win-when">{w.when}</div>
+            <div className="win-title">{w.title}</div>
+            <div className="win-detail">{w.detail}</div>
           </div>
-        </div>
-        <div className="win-card">
-          <div className="win-when">Month 5 · Gate 2</div>
-          <div className="win-title">The market says yes</div>
-          <div className="win-detail">
-            MOUs signed. Five pilot stores selected. Retailers at the
-            table — real-world commercial support secured.
-          </div>
-        </div>
-        <div className="win-card">
-          <div className="win-when">Month 8 · Gate 3</div>
-          <div className="win-title">The product works</div>
-          <div className="win-detail">
-            AR platform built. 500+ P&amp;G SKUs live. A shopper holds
-            up a Gillette — and Pam knows exactly what it is.
-          </div>
-        </div>
-        <div className="win-card">
-          <div className="win-when">Month 13 · Gate 4</div>
-          <div className="win-title">Real consumers say it works</div>
-          <div className="win-detail">
-            50 shoppers. Real stores. Think-aloud testing. SUS score
-            ≥ 75 — not just impressive, genuinely easy to use.
-          </div>
-        </div>
-        <div className="win-card">
-          <div className="win-when">Month 18 · Go / No-Go</div>
-          <div className="win-title">The numbers say it works</div>
-          <div className="win-detail">
-            +33% conversion · –50% complaint cost · –25% returns ·
-            +15 NPS. Hit all four — and we scale.
-          </div>
-        </div>
+        ))}
       </div>
     </>
   );
@@ -1113,74 +1247,48 @@ function SustainScale() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 07 · Sustain acceleration</div>
+        <div className="step-intro-number">Step 07 · Living system</div>
         <div className="step-intro-heading">
-          Scale carefully. One direction only.
+          More than CX. An organisation tool.
         </div>
         <div className="step-intro-tagline">
-          Test · learn · refine · scale · repeat. Every wave informed
-          by the one before it.
+          Pam stops being a tool. Becomes a data source.
         </div>
       </div>
 
-      <div className="scale-grid">
-        <div className="scale-card">
-          <div className="scale-card-eyebrow">Stores</div>
-          <div className="scale-arrow">
-            <span className="scale-arrow-from">5 stores</span>
-            <span className="scale-arrow-sep">→</span>
-            <span className="scale-arrow-to">800</span>
-          </div>
-          <div className="scale-desc">
-            Phased activation, region by region, store by store. Every
-            new wave is informed by the data from the wave before.
-          </div>
-          <ul className="scale-list">
-            <li>Pilot · 5 Boots stores · UK</li>
-            <li>Wave 2 · 300 Boots · 500 Tesco</li>
-            <li>Wave 3 · 800+ flagship retailers</li>
-          </ul>
+      <div className="living-inputs">
+        <div className="living-input living-input-1">
+          <span className="living-input-tag">Every</span>
+          <span className="living-input-key">product picked up</span>
         </div>
-        <div className="scale-card">
-          <div className="scale-card-eyebrow">Brands</div>
-          <div className="scale-arrow">
-            <span className="scale-arrow-from">1 brand</span>
-            <span className="scale-arrow-sep">→</span>
-            <span className="scale-arrow-to">5</span>
-          </div>
-          <div className="scale-desc">
-            Phase 1 proves the model on Gillette. Each new brand is a
-            new learning loop — Pam gets smarter with every one.
-          </div>
-          <ul className="scale-list">
-            <li>Phase 1 · Gillette</li>
-            <li>Phase 3 · Pampers · Oral-B</li>
-            <li>Phase 5 · Braun · further SBUs</li>
-          </ul>
+        <div className="living-input living-input-2">
+          <span className="living-input-tag">Every</span>
+          <span className="living-input-key">comparison</span>
         </div>
-        <div className="scale-card">
-          <div className="scale-card-eyebrow">Markets</div>
-          <div className="scale-arrow">
-            <span className="scale-arrow-from">UK</span>
-            <span className="scale-arrow-sep">→</span>
-            <span className="scale-arrow-to">EU · US</span>
-          </div>
-          <div className="scale-desc">
-            New regulation. New consumer behaviours. New retail
-            partners. Our coalition adapts each rollout seamlessly.
-          </div>
-          <ul className="scale-list">
-            <li>UK · ICO-aligned launch</li>
-            <li>EU · GDPR-native expansion</li>
-            <li>US · retail-partner co-design</li>
-          </ul>
+        <div className="living-input living-input-3">
+          <span className="living-input-tag">Every</span>
+          <span className="living-input-key">purchase</span>
+        </div>
+        <div className="living-input living-input-4">
+          <span className="living-input-tag">Every</span>
+          <span className="living-input-key">question</span>
         </div>
       </div>
 
-      <div className="inline-stat" style={{ marginTop: '1.2rem' }}>
-        We never move faster than{' '}
-        <strong>our evidence allows.</strong> We don&apos;t scale to
-        scale — we scale a proof of success.
+      <div className="living-arrow">↓</div>
+
+      <div className="living-loop">
+        <div className="living-loop-item living-loop-1">Model retrains</div>
+        <div className="living-loop-sep">·</div>
+        <div className="living-loop-item living-loop-2">Recommendations sharpen</div>
+        <div className="living-loop-sep">·</div>
+        <div className="living-loop-item living-loop-3">Shelf visibility, in real time</div>
+      </div>
+
+      <div className="living-headline">
+        Pam becomes a{' '}
+        <span className="highlight-yellow-bg">living system</span> —
+        compounding value and information over time.
       </div>
     </>
   );
@@ -1190,67 +1298,45 @@ function SustainFeedback() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 07 · Feedback architecture</div>
+        <div className="step-intro-number">Step 07 · The moat</div>
         <div className="step-intro-heading">
-          Pam becomes a living system.
+          The network effect is the moat.
         </div>
         <div className="step-intro-tagline">
-          Compounding value and information over time. The network
-          effect is the moat.
+          Defensibility no competitor can buy.
         </div>
       </div>
 
-      <div className="flywheel-grid">
-        <div className="flywheel-stage">
-          <div className="flywheel-stage-num">01</div>
-          <div className="flywheel-stage-title">Capture</div>
-          <div className="flywheel-stage-detail">
-            Every product picked up, every comparison made, every
-            purchase completed — feeds back into Pam&apos;s model.
-          </div>
+      <div className="moat-stack">
+        <div className="moat-line moat-line-1">
+          <span className="moat-key">Each interaction</span>
+          <span className="moat-arrow">→</span>
+          <span className="moat-result">
+            the next one is <strong>better</strong>
+          </span>
         </div>
-        <div className="flywheel-arrow">→</div>
-        <div className="flywheel-stage">
-          <div className="flywheel-stage-num">02</div>
-          <div className="flywheel-stage-title">Retrain</div>
-          <div className="flywheel-stage-detail">
-            The model is retrained on a regular cadence — sharper
-            recommendations, better recognition, fewer dead ends.
-          </div>
+        <div className="moat-line moat-line-2">
+          <span className="moat-key">Each market</span>
+          <span className="moat-arrow">→</span>
+          <span className="moat-result">
+            the next one is <strong>faster</strong>
+          </span>
         </div>
-        <div className="flywheel-arrow">→</div>
-        <div className="flywheel-stage">
-          <div className="flywheel-stage-num">03</div>
-          <div className="flywheel-stage-title">Surface</div>
-          <div className="flywheel-stage-detail">
-            Brand teams and the guiding coalition get real-time
-            visibility of consumer behaviour at the shelf — in a way
-            that has never existed before.
-          </div>
-        </div>
-        <div className="flywheel-arrow">→</div>
-        <div className="flywheel-stage">
-          <div className="flywheel-stage-num">04</div>
-          <div className="flywheel-stage-title">Compound</div>
-          <div className="flywheel-stage-detail">
-            Each interaction makes the next one better. Each market
-            faster. Each brand stronger — for every brand already in.
-          </div>
+        <div className="moat-line moat-line-3">
+          <span className="moat-key">Each brand</span>
+          <span className="moat-arrow">→</span>
+          <span className="moat-result">
+            every other brand becomes <strong>more valuable</strong>
+          </span>
         </div>
       </div>
 
-      <div className="moat-callout">
-        <div className="moat-callout-eyebrow">The moat</div>
-        <div className="moat-callout-text">
-          Pam&apos;s defensibility isn&apos;t the AI on day one — it
-          is the <strong>compounding data and network effects</strong>{' '}
-          no competitor can replicate by spending alone.
-        </div>
-      </div>
-
-      <div className="inline-stat" style={{ marginTop: '1.2rem' }}>
-        This is not a rollout. <strong>It is a flywheel.</strong> And
-        by Month 36, it is already spinning.
+      <div className="moat-finale">
+        By <strong>Month 36</strong>, the flywheel isn&apos;t a metaphor.
+        <br />
+        <span className="highlight-yellow-bg moat-finale-spin">
+          It&apos;s spinning.
+        </span>
       </div>
     </>
   );
@@ -1259,13 +1345,39 @@ function SustainFeedback() {
 // =====================================================
 // STEP 8 · INSTITUTE CHANGE
 // =====================================================
-function InstituteContent() {
+const VALUE_CARDS = [
+  {
+    name: 'Integrity',
+    text: 'In every recommendation — backed by data, never a sales pitch.',
+  },
+  {
+    name: 'Leadership',
+    text: 'In every market it enters — first-mover at the shelf, not the spec sheet.',
+  },
+  {
+    name: 'Ownership',
+    text: 'Across every team it touches — five SBUs, one experience.',
+  },
+  {
+    name: 'Trust',
+    text: 'Earned at every single consumer interaction — never assumed.',
+  },
+  {
+    name: 'Passion for winning',
+    text: 'At the shelf. In the data. In the experience.',
+  },
+];
+
+function InstituteContent({ variant }) {
+  const m = variant && variant.match(/^values-(\d+)$/);
+  const visibleCount = m ? Math.min(parseInt(m[1], 10), 5) : 5;
+
   return (
     <>
       <div className="step-intro">
         <div className="step-intro-number">Step 08 · Institute change</div>
         <div className="step-intro-heading">
-          Month 36. Pam is how P&amp;G works.
+          Month 36. Pam+ is how P&amp;G works.
         </div>
         <div className="step-intro-tagline">
           No longer a programme. Embedded in consumer support, brand
@@ -1281,82 +1393,29 @@ function InstituteContent() {
             <path d="M2 7 H94 M82 1 L94 7 L82 13" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <div className="institute-banner-pam">Pam</div>
+        <div className="institute-banner-pam">Pam+</div>
       </div>
 
       <div className="values-link-grid">
-        <div className="value-link-card value-link-tone-1">
-          <div className="value-link-pg">
-            <div className="value-link-eyebrow">P&amp;G value</div>
-            <div className="value-link-name">Integrity</div>
-          </div>
-          <div className="value-link-divider">expressed as</div>
-          <div className="value-link-pam">
-            <div className="value-link-pam-eyebrow">Pam delivers it</div>
-            <div className="value-link-pam-text">
-              In every recommendation — backed by data, never a sales pitch.
+        {VALUE_CARDS.map((v, i) => (
+          <div
+            key={v.name}
+            className={`value-link-card value-link-tone-${i + 1} ${i < visibleCount ? 'value-link-visible' : 'value-link-hidden'}`}
+          >
+            <div className="value-link-pg">
+              <div className="value-link-eyebrow">P&amp;G value</div>
+              <div className="value-link-name">{v.name}</div>
+            </div>
+            <div className="value-link-divider">expressed as</div>
+            <div className="value-link-pam">
+              <div className="value-link-pam-eyebrow">Pam delivers it</div>
+              <div className="value-link-pam-text">{v.text}</div>
             </div>
           </div>
-        </div>
-
-        <div className="value-link-card value-link-tone-2">
-          <div className="value-link-pg">
-            <div className="value-link-eyebrow">P&amp;G value</div>
-            <div className="value-link-name">Leadership</div>
-          </div>
-          <div className="value-link-divider">expressed as</div>
-          <div className="value-link-pam">
-            <div className="value-link-pam-eyebrow">Pam delivers it</div>
-            <div className="value-link-pam-text">
-              In every market it enters — first-mover at the shelf, not the spec sheet.
-            </div>
-          </div>
-        </div>
-
-        <div className="value-link-card value-link-tone-3">
-          <div className="value-link-pg">
-            <div className="value-link-eyebrow">P&amp;G value</div>
-            <div className="value-link-name">Ownership</div>
-          </div>
-          <div className="value-link-divider">expressed as</div>
-          <div className="value-link-pam">
-            <div className="value-link-pam-eyebrow">Pam delivers it</div>
-            <div className="value-link-pam-text">
-              Across every team it touches — five SBUs, one experience.
-            </div>
-          </div>
-        </div>
-
-        <div className="value-link-card value-link-tone-4">
-          <div className="value-link-pg">
-            <div className="value-link-eyebrow">P&amp;G value</div>
-            <div className="value-link-name">Trust</div>
-          </div>
-          <div className="value-link-divider">expressed as</div>
-          <div className="value-link-pam">
-            <div className="value-link-pam-eyebrow">Pam delivers it</div>
-            <div className="value-link-pam-text">
-              Earned at every single consumer interaction — never assumed.
-            </div>
-          </div>
-        </div>
-
-        <div className="value-link-card value-link-tone-5">
-          <div className="value-link-pg">
-            <div className="value-link-eyebrow">P&amp;G value</div>
-            <div className="value-link-name">Passion for winning</div>
-          </div>
-          <div className="value-link-divider">expressed as</div>
-          <div className="value-link-pam">
-            <div className="value-link-pam-eyebrow">Pam delivers it</div>
-            <div className="value-link-pam-text">
-              At the shelf. In the data. In the experience.
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
-      <div className="institute-close">
+      <div className={`institute-close ${visibleCount >= 5 ? 'institute-close-visible' : 'institute-close-hidden'}`}>
         Not a system that was adopted.{' '}
         <strong>A system that became inseparable from the company that built it.</strong>
       </div>

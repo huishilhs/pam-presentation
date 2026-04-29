@@ -4,13 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 import Navigation from './Navigation';
 import KotterRow from './KotterRow';
 import KotterContent from './KotterContent';
-import TitleSlide from './slides/TitleSlide';
+// import TitleSlide from './slides/TitleSlide';
 import HookSlide from './slides/HookSlide';
-import PersonaSlide from './slides/PersonaSlide';
-import TeamSlide from './slides/TeamSlide';
+import PersonaSlide, { PersonaMeetSlide } from './slides/PersonaSlide';
+// import TeamSlide from './slides/TeamSlide';
 import OpeningSlide from './slides/OpeningSlide';
-import RecapSlide from './slides/RecapSlide';
-import WhySlide from './slides/WhySlide';
+import LastSemSlide from './slides/LastSemSlide';
+import TodaySlide from './slides/TodaySlide';
+// import WhySlide from './slides/WhySlide';
 import WhyKotterSlide from './slides/WhyKotterSlide';
 import KotterOverviewSlide from './slides/KotterOverviewSlide';
 import ClosingSlide from './slides/ClosingSlide';
@@ -24,37 +25,51 @@ import ThanksSlide from './slides/ThanksSlide';
 //   • 0         → Kotter overview (wheel centered, no step active)
 //   • 1-8       → Kotter step slide (wheel zoomed into that step)
 const SLIDES = [
-  { id: 'title',   className: 'slide-title',   Component: TitleSlide },
+  // { id: 'title',   className: 'slide-title',   Component: TitleSlide },
   { id: 'hook',    className: 'slide-hook',    Component: HookSlide },
-  { id: 'persona', className: 'slide-persona', Component: PersonaSlide },
-  { id: 'team',    className: 'slide-team',    Component: TeamSlide },
+  { id: 'persona-meet', className: 'slide-persona', Component: PersonaMeetSlide },
+  { id: 'persona',      className: 'slide-persona', Component: PersonaSlide },
+  // { id: 'team',    className: 'slide-team',    Component: TeamSlide },
   { id: 'opening', className: 'slide-opening', Component: OpeningSlide },
-  { id: 'recap',   className: 'slide-recap',   Component: RecapSlide },
+  { id: 'last-sem', className: 'slide-recap slide-last-sem', Component: LastSemSlide },
+  { id: 'today',    className: 'slide-recap slide-today',    Component: TodaySlide },
   { id: 'why-kotter', className: 'slide-why-kotter', Component: WhyKotterSlide },
-  { id: 'why',     className: 'slide-why',     Component: WhySlide },
+  // { id: 'why',     className: 'slide-why',     Component: WhySlide },
 
   { id: 'kotter-overview', className: 'slide-kotter', Component: KotterOverviewSlide, kotterStep: 0 },
-  { id: 'step-1', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 1 },
-  { id: 'step-2-culture',     className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'culture' },
-  { id: 'step-2-stakeholder', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'stakeholder' },
-  { id: 'step-2-pyramid',     className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid' },
+  { id: 'step-1-analysis',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 1, kotterVariant: 'analysis' },
+  { id: 'step-1-conclusion', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 1, kotterVariant: 'conclusion' },
+  { id: 'step-2-pyramid-1', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid-1' },
+  { id: 'step-2-pyramid-2', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid-2' },
+  { id: 'step-2-pyramid-3', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid-3' },
+  { id: 'step-2-pyramid-4', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid-4' },
+  { id: 'step-2-pyramid-5', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid-5' },
   { id: 'step-3-growth',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 3, kotterVariant: 'growth' },
   { id: 'step-3-triangle', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 3, kotterVariant: 'triangle' },
   { id: 'step-4', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4 },
   { id: 'step-5-sources',  className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'sources' },
-  { id: 'step-5-matrix',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'matrix' },
   { id: 'step-5-fragment', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'fragment' },
   { id: 'step-6-wbs',      className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wbs' },
-  { id: 'step-6-network',  className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'network' },
-  { id: 'step-6-critical', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'critical' },
   { id: 'step-6-gantt',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'gantt' },
-  { id: 'step-6-wins',     className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins' },
+  { id: 'step-6-network',  className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'network' },
+  { id: 'step-6-momentum', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'momentum' },
+  { id: 'step-6-wins-1',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-1' },
+  { id: 'step-6-wins-2',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-2' },
+  { id: 'step-6-wins-3',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-3' },
+  { id: 'step-6-wins-4',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-4' },
+  { id: 'step-6-wins-5',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-5' },
   { id: 'step-7-scale',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 7, kotterVariant: 'scale' },
   { id: 'step-7-feedback', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 7, kotterVariant: 'feedback' },
-  { id: 'step-8', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8 },
+  { id: 'step-8-1', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8, kotterVariant: 'values-1' },
+  { id: 'step-8-2', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8, kotterVariant: 'values-2' },
+  { id: 'step-8-3', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8, kotterVariant: 'values-3' },
+  { id: 'step-8-4', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8, kotterVariant: 'values-4' },
+  { id: 'step-8-5', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8, kotterVariant: 'values-5' },
 
   { id: 'closing', className: 'slide-close',  Component: ClosingSlide },
-  { id: 'thanks',  className: 'slide-thanks', Component: ThanksSlide },
+  { id: 'thanks-1', className: 'slide-thanks', Component: ThanksSlide, stage: 1 },
+  { id: 'thanks-2', className: 'slide-thanks', Component: ThanksSlide, stage: 2 },
+  { id: 'thanks-3', className: 'slide-thanks', Component: ThanksSlide, stage: 3 },
 ];
 
 // Blank placeholder for Kotter step slides — the visual content is
@@ -89,9 +104,17 @@ export default function Deck() {
       return;
     }
 
+    const lastStep = lastKotterStepRef.current;
+
+    // If we're staying within the same Kotter step (just switching
+    // variants), don't hide/re-show the content panel — let the new
+    // variant prop pass through so only the inner content updates.
+    if (lastStep === targetKotter && targetKotter > 0) {
+      return;
+    }
+
     setShowContent(false);
 
-    const lastStep = lastKotterStepRef.current;
     const isBetweenSteps =
       lastStep !== null &&
       lastStep > 0 &&
@@ -159,13 +182,13 @@ export default function Deck() {
 
       <div className="deck">
         {SLIDES.map((slide, i) => {
-          const { Component, className } = slide;
+          const { Component, className, stage } = slide;
           return (
             <div
               key={slide.id}
               className={`slide ${className || ''} ${i === index ? 'active' : ''}`}
             >
-              <Component />
+              <Component isActive={i === index} stage={stage} />
             </div>
           );
         })}
