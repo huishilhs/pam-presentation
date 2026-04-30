@@ -2285,6 +2285,13 @@ p.body {
   font-weight: 600;
 }
 
+.triangle-roi-source {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
 .triangle-roi-headline {
   background: var(--blue);
   color: var(--yellow);
@@ -2314,11 +2321,11 @@ p.body {
 }
 
 .triangle-roi-multiplier {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.65rem;
+  font-weight: 700;
   color: var(--blue);
   text-align: center;
-  padding: 0.4rem 0;
+  padding: 0.6rem 0;
 }
 
 /* --- Feedback loop (Step 7) --- */

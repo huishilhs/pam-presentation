@@ -606,13 +606,13 @@ function VisionTriangle({ variant }) {
 
 function BudgetBreakdownPanel() {
   const items = [
-    { name: 'AI & AR development', sum: '£320,000' },
-    { name: 'Platform integration', sum: '£180,000' },
-    { name: 'Pilot & rollout operations', sum: '£160,000' },
-    { name: 'Change management', sum: '£140,000' },
-    { name: 'Research & discovery', sum: '£80,000' },
-    { name: 'Project management', sum: '£60,000' },
-    { name: 'Contingency reserve', sum: '£60,000' },
+    { name: 'AI & AR development', sum: '£230,000' },
+    { name: 'Platform integration', sum: '£135,000' },
+    { name: 'Pilot & rollout operations', sum: '£120,000' },
+    { name: 'Change management', sum: '£100,000' },
+    { name: 'Research & discovery', sum: '£55,000' },
+    { name: 'Project management', sum: '£45,000' },
+    { name: 'Contingency reserve', sum: '£100,000' },
   ];
   return (
     <>
@@ -627,7 +627,7 @@ function BudgetBreakdownPanel() {
       </ul>
       <div className="triangle-roi-headline">
         <div className="triangle-roi-amount">£1.0M</div>
-        <div className="triangle-roi-meta">Total · 6% contingency</div>
+        <div className="triangle-roi-meta">Total · 10% contingency</div>
       </div>
     </>
   );
@@ -640,15 +640,24 @@ function ProjectedReturnPanel() {
       <div className="triangle-roi-list">
         <div className="triangle-roi-row">
           <div className="triangle-roi-pct">+33%</div>
-          <div className="triangle-roi-label">Conversion uplift</div>
+          <div className="triangle-roi-label">
+            Conversion uplift
+            <span className="triangle-roi-source"> (Sculpt, 2025)</span>
+          </div>
         </div>
         <div className="triangle-roi-row">
           <div className="triangle-roi-pct">–50%</div>
-          <div className="triangle-roi-label">Complaint-handling cost</div>
+          <div className="triangle-roi-label">
+            Complaint-handling cost
+            <span className="triangle-roi-source"> (McKinsey, 2014)</span>
+          </div>
         </div>
         <div className="triangle-roi-row">
           <div className="triangle-roi-pct">–25%</div>
-          <div className="triangle-roi-label">Product returns</div>
+          <div className="triangle-roi-label">
+            Product returns
+            <span className="triangle-roi-source"> (Celestin et al., 2024)</span>
+          </div>
         </div>
       </div>
       <div className="triangle-roi-headline">
