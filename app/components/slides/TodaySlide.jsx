@@ -12,9 +12,9 @@ const PANELS = [
   },
   {
     label: 'Smart Glasses',
-    headline: 'Walks the aisle with you.',
-    body: 'Reviews from people like you. Comparisons. What you bought last month and whether it worked.',
-    cue: 'Decide where it matters — on the shelf.',
+    headline: 'Leave your comment.',
+    body: 'Captures what you actually used, when, and how. No forms. No five-star sliders. Just your voice.',
+    cue: 'EVERY VOICE - STRAIGHT TO THE BRAND TEAM.',
     video: '/glasses.mp4',
   },
   {

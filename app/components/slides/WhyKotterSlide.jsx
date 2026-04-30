@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 
 const LINES = [
-  { text: 'One AI.', accent: 'yellow' },
+  { text: 'One Solution.', accent: 'yellow' },
   { text: 'Every device.', accent: 'cyan' },
-  { text: 'Every step of the journey.', accent: 'yellow' },
+  { text: 'Every step of the journey.', accent: 'coral' },
 ];
 
 const REVEAL_TIMINGS = [600, 2000, 3600];

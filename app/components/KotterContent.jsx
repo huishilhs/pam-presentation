@@ -3,9 +3,14 @@
 import { useEffect, useState } from 'react';
 
 /**
- * KotterContent renders the content panel for an active Kotter step.
- * All 8 step panels live in this file — scroll to find the one you
- * want to edit. They're labelled with clear section comments.
+ * KotterContent renders the content panel for an active roadmap step.
+ * The 6-step structure:
+ *   1 · The Fit       → strategic vision Pam+ represents
+ *   2 · The Analysis  → McKinsey 7-S
+ *   3 · The Scope     → Iron Triangle
+ *   4 · The Team      → Five tiers + ADKAR
+ *   5 · The Risks     → WBS · Gantt · Critical path · Risk list · Matrix · Fragment
+ *   6 · The Proof     → Five gated proofs
  */
 export default function KotterContent({ activeStep, activeVariant }) {
   const className = activeStep !== null && activeStep > 0
@@ -14,16 +19,36 @@ export default function KotterContent({ activeStep, activeVariant }) {
 
   return (
     <div className={className}>
-      {activeStep === 1 && <UrgencyContent variant={activeVariant} />}
-      {activeStep === 2 && <CoalitionContent variant={activeVariant} />}
-      {activeStep === 3 && <VisionContent variant={activeVariant} />}
-      {activeStep === 4 && <EnlistContent />}
-      {activeStep === 5 && <EnableContent variant={activeVariant} />}
-      {activeStep === 6 && <WinsContent variant={activeVariant} />}
-      {activeStep === 7 && <SustainContent variant={activeVariant} />}
-      {activeStep === 8 && <InstituteContent variant={activeVariant} />}
+      {activeStep === 1 && <VisionGrowth />}
+      {activeStep === 2 && <UrgencyAnalysis />}
+      {activeStep === 3 && <VisionTriangle variant={activeVariant} />}
+      {activeStep === 4 && <TeamContent variant={activeVariant} />}
+      {activeStep === 5 && <RisksContent variant={activeVariant} />}
+      {activeStep === 6 && <ProofContent variant={activeVariant} />}
     </div>
   );
+}
+
+function TeamContent({ variant }) {
+  if (variant === 'adkar') return <EnlistContent />;
+  const m = variant && variant.match(/^pyramid-(\d+)$/);
+  const visibleCount = m ? Math.min(parseInt(m[1], 10), 5) : 5;
+  return <CoalitionPyramid visibleCount={visibleCount} />;
+}
+
+function RisksContent({ variant }) {
+  if (variant === 'wbs') return <WinsWbs />;
+  if (variant === 'gantt') return <WinsGantt />;
+  if (variant === 'network') return <WinsNetwork />;
+  if (variant === 'matrix') return <EnableMatrix />;
+  if (variant === 'fragment') return <EnableFragment />;
+  return <EnableSources />;
+}
+
+function ProofContent({ variant }) {
+  const m = variant && variant.match(/^wins-(\d+)$/);
+  const visibleCount = m ? Math.min(parseInt(m[1], 10), 5) : 5;
+  return <WinsList visibleCount={visibleCount} />;
 }
 
 // =====================================================
@@ -131,7 +156,7 @@ function UrgencyAnalysis() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 01 · Urgency</div>
+        <div className="step-intro-number">Step 02 · The Analysis</div>
         <div className="step-intro-heading">
           The gap inside P&amp;G.
         </div>
@@ -391,7 +416,7 @@ function CoalitionPyramid({ visibleCount = 5 }) {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 02 · Coalition</div>
+        <div className="step-intro-number">Step 04 · The Team</div>
         <div className="step-intro-heading">
           Five tiers. One owner of CX.
         </div>
@@ -429,7 +454,7 @@ function VisionGrowth() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 03 · Strategic vision</div>
+        <div className="step-intro-number">Step 01 · The Fit</div>
         <div className="step-intro-heading">
           The strategic vision Pam+ represents.
         </div>
@@ -487,11 +512,45 @@ function VisionGrowth() {
   );
 }
 
-function VisionTriangle() {
+const TRIANGLE_PHASES = ['budget', 'timeline', 'scope'];
+
+const TRIANGLE_CONSTRAINTS = {
+  budget: {
+    label: 'Budget',
+    value: '£1M',
+    sub: 'Cost breakdown: £940K',
+  },
+  timeline: {
+    label: 'Timeline',
+    value: '36 mo',
+    sub: 'Gated stage reviews',
+  },
+  scope: {
+    label: 'Scope',
+    value: 'Software',
+    sub: 'No hardware build',
+  },
+};
+
+// For each phase, which constraint key sits at top / bottom-left / bottom-right.
+// Cyclic shift so the next phase brings the next constraint up to the top.
+const TRIANGLE_ARRANGEMENT = [
+  { top: 'budget',   left: 'timeline', right: 'scope'    },
+  { top: 'timeline', left: 'scope',    right: 'budget'   },
+  { top: 'scope',    left: 'budget',   right: 'timeline' },
+];
+
+function VisionTriangle({ variant }) {
+  const phase = Math.max(0, TRIANGLE_PHASES.indexOf(variant));
+  const arr = TRIANGLE_ARRANGEMENT[phase];
+  const top = TRIANGLE_CONSTRAINTS[arr.top];
+  const left = TRIANGLE_CONSTRAINTS[arr.left];
+  const right = TRIANGLE_CONSTRAINTS[arr.right];
+
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 03 · Iron triangle</div>
+        <div className="step-intro-number">Step 03 · The Scope</div>
         <div className="step-intro-heading">
           Disciplined delivery.
         </div>
@@ -511,53 +570,114 @@ function VisionTriangle() {
               strokeWidth="2.5"
             />
           </svg>
-          <div className="triangle-vertex triangle-vertex-top">
-            <div className="triangle-vertex-label">Budget</div>
-            <div className="triangle-vertex-value">£1M</div>
-            <div className="triangle-vertex-sub">Cost breakdown: £940K</div>
+
+          <div className="triangle-vertex triangle-vertex-top is-active">
+            <div className="triangle-vertex-label">{top.label}</div>
+            <div className="triangle-vertex-value">{top.value}</div>
+            <div className="triangle-vertex-sub">{top.sub}</div>
           </div>
           <div className="triangle-vertex triangle-vertex-left">
-            <div className="triangle-vertex-label">Timeline</div>
-            <div className="triangle-vertex-value">36 mo</div>
-            <div className="triangle-vertex-sub">Gated stage reviews</div>
+            <div className="triangle-vertex-label">{left.label}</div>
+            <div className="triangle-vertex-value">{left.value}</div>
+            <div className="triangle-vertex-sub">{left.sub}</div>
           </div>
           <div className="triangle-vertex triangle-vertex-right">
-            <div className="triangle-vertex-label">Scope</div>
-            <div className="triangle-vertex-value">Software</div>
-            <div className="triangle-vertex-sub">No hardware build</div>
+            <div className="triangle-vertex-label">{right.label}</div>
+            <div className="triangle-vertex-value">{right.value}</div>
+            <div className="triangle-vertex-sub">{right.sub}</div>
           </div>
         </div>
 
-        <div className="triangle-roi">
-          <div className="triangle-roi-eyebrow">Projected return</div>
-          <div className="triangle-roi-list">
-            <div className="triangle-roi-row">
-              <div className="triangle-roi-pct">+33%</div>
-              <div className="triangle-roi-label">Conversion uplift</div>
-            </div>
-            <div className="triangle-roi-row">
-              <div className="triangle-roi-pct">–50%</div>
-              <div className="triangle-roi-label">Complaint-handling cost</div>
-            </div>
-            <div className="triangle-roi-row">
-              <div className="triangle-roi-pct">–25%</div>
-              <div className="triangle-roi-label">Product returns</div>
-            </div>
+        <div className="triangle-side">
+          <div className={`triangle-panel ${phase === 0 ? 'is-shown' : ''}`}>
+            <BudgetBreakdownPanel />
           </div>
-          <div className="triangle-roi-headline">
-            <div className="triangle-roi-amount">£18.2M</div>
-            <div className="triangle-roi-meta">3-year revenue uplift</div>
+          <div className={`triangle-panel ${phase === 1 ? 'is-shown' : ''}`}>
+            <ProjectedReturnPanel />
           </div>
-          <div className="triangle-roi-multiplier">
-            <span className="highlight-yellow-bg">18× return</span> on a
-            £1M investment.
+          <div className={`triangle-panel ${phase === 2 ? 'is-shown' : ''}`}>
+            <ScopeLockedPanel />
           </div>
         </div>
       </div>
+    </>
+  );
+}
 
-      <div className="inline-stat" style={{ marginTop: '1rem' }}>
-        A return far too significant to{' '}
-        <strong>leave to chance.</strong>
+function BudgetBreakdownPanel() {
+  const items = [
+    { name: 'AI & AR development', sum: '£320,000' },
+    { name: 'Platform integration', sum: '£180,000' },
+    { name: 'Pilot & rollout operations', sum: '£160,000' },
+    { name: 'Change management', sum: '£140,000' },
+    { name: 'Research & discovery', sum: '£80,000' },
+    { name: 'Project management', sum: '£60,000' },
+    { name: 'Contingency reserve', sum: '£60,000' },
+  ];
+  return (
+    <>
+      <div className="triangle-roi-eyebrow">Budget breakdown</div>
+      <ul className="budget-breakdown">
+        {items.map((it) => (
+          <li key={it.name} className="budget-row">
+            <span className="budget-name">{it.name}</span>
+            <span className="budget-sum">{it.sum}</span>
+          </li>
+        ))}
+      </ul>
+      <div className="triangle-roi-headline">
+        <div className="triangle-roi-amount">£1.0M</div>
+        <div className="triangle-roi-meta">Total · 6% contingency</div>
+      </div>
+    </>
+  );
+}
+
+function ProjectedReturnPanel() {
+  return (
+    <>
+      <div className="triangle-roi-eyebrow">Projected return</div>
+      <div className="triangle-roi-list">
+        <div className="triangle-roi-row">
+          <div className="triangle-roi-pct">+33%</div>
+          <div className="triangle-roi-label">Conversion uplift</div>
+        </div>
+        <div className="triangle-roi-row">
+          <div className="triangle-roi-pct">–50%</div>
+          <div className="triangle-roi-label">Complaint-handling cost</div>
+        </div>
+        <div className="triangle-roi-row">
+          <div className="triangle-roi-pct">–25%</div>
+          <div className="triangle-roi-label">Product returns</div>
+        </div>
+      </div>
+      <div className="triangle-roi-headline">
+        <div className="triangle-roi-amount">£18.2M</div>
+        <div className="triangle-roi-meta">3-year revenue uplift</div>
+      </div>
+      <div className="triangle-roi-multiplier">
+        <span className="highlight-yellow-bg">18× return</span> on a £1M investment.
+      </div>
+    </>
+  );
+}
+
+function ScopeLockedPanel() {
+  const devices = ['Your phone.', 'Your glasses.', 'Your laptop.'];
+  return (
+    <>
+      <div className="triangle-roi-eyebrow">Scope locked</div>
+      <div className="scope-headline">The device already exists.</div>
+      <ul className="scope-devices">
+        {devices.map((d) => (
+          <li key={d} className="scope-device">
+            {d}
+          </li>
+        ))}
+      </ul>
+      <div className="scope-payoff">
+        We don&apos;t sell hardware.{' '}
+        <span className="highlight-yellow-bg">We make the hardware work.</span>
       </div>
     </>
   );
@@ -570,7 +690,7 @@ function EnlistContent() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 04 · Enlist the army</div>
+        <div className="step-intro-number">Step 04 · The Team · ADKAR</div>
         <div className="step-intro-heading">
           Bottom-up. One person at a time.
         </div>
@@ -683,7 +803,7 @@ function EnableSources() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 05 · Remove barriers</div>
+        <div className="step-intro-number">Step 05 · The Risks</div>
         <div className="step-intro-heading">
           A systematic risk identification process.
         </div>
@@ -760,7 +880,7 @@ function EnableMatrix() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 05 · Remove barriers</div>
+        <div className="step-intro-number">Step 05 · The Risks · Matrix</div>
         <div className="step-intro-heading">
           9 risks. All accounted for.
         </div>
@@ -871,7 +991,7 @@ function EnableFragment() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 05 · Risk in focus</div>
+        <div className="step-intro-number">Step 05 · The Risks · In focus</div>
         <div className="step-intro-heading">
           Fragmented SBU adoption.
         </div>
@@ -906,7 +1026,6 @@ function EnableFragment() {
 
         <div className="fragment-targets">
           <div className="fragment-target">
-            <div className="fragment-target-step">Step 02</div>
             <div className="fragment-target-title">Coalition design</div>
             <div className="fragment-target-detail">
               The five-tier pyramid — and the dedicated SBU Integration
@@ -914,7 +1033,6 @@ function EnableFragment() {
             </div>
           </div>
           <div className="fragment-target">
-            <div className="fragment-target-step">Step 04</div>
             <div className="fragment-target-title">ADKAR adoption plan</div>
             <div className="fragment-target-detail">
               Bottom-up enlistment, role-specific knowledge, and
@@ -1016,7 +1134,7 @@ function WinsWbs() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 06 · Foundations</div>
+        <div className="step-intro-number">Step 05 · The Risks · WBS</div>
         <div className="step-intro-heading">
           Work Breakdown Structure.
         </div>
@@ -1062,7 +1180,7 @@ function WinsNetwork() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 06 · Network diagram</div>
+        <div className="step-intro-number">Step 05 · The Risks · Critical Path</div>
         <div className="step-intro-heading">
           Every dependency mapped.
         </div>
@@ -1115,7 +1233,7 @@ function WinsGantt() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 06 · Gantt &amp; gates</div>
+        <div className="step-intro-number">Step 05 · The Risks · Timeline</div>
         <div className="step-intro-heading">
           Wins are milestones. Milestones are gates.
         </div>
@@ -1210,7 +1328,7 @@ function WinsList({ visibleCount = 5 }) {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 06 · Short-term wins</div>
+        <div className="step-intro-number">Step 06 · The Proof</div>
         <div className="step-intro-heading">
           Five gated proofs. Before we scale.
         </div>

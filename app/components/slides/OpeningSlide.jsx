@@ -24,7 +24,7 @@ export default function OpeningSlide({ isActive }) {
     <div className="slide-inner stats-slide">
       <div className="stats-stack">
         <div className={`stats-line ${cls(1)}`}>
-          <span className="stats-num">140</span>
+          <span className="stats-num">65+</span>
           <span className="stats-unit">brands.</span>
         </div>
         <div className={`stats-line ${cls(2)}`}>
@@ -33,7 +33,7 @@ export default function OpeningSlide({ isActive }) {
         </div>
         <div className={`stats-line ${cls(3)}`}>
           <span className="stats-num">$84B</span>
-          <span className="stats-unit">last year &mdash;</span>
+          <span className="stats-unit">last year</span>
         </div>
 
         <div className={`stats-punchline ${cls(4)}`}>

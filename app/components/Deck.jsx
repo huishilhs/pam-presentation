@@ -38,35 +38,40 @@ const SLIDES = [
   { id: 'why-kotter', className: 'slide-why-kotter', Component: WhyKotterSlide },
   // { id: 'why',     className: 'slide-why',     Component: WhySlide },
 
-  { id: 'kotter-overview', className: 'slide-kotter', Component: KotterOverviewSlide, kotterStep: 0 },
-  { id: 'step-1-analysis',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 1, kotterVariant: 'analysis' },
-  { id: 'step-1-conclusion', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 1, kotterVariant: 'conclusion' },
-  { id: 'step-2-pyramid-1', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid-1' },
-  { id: 'step-2-pyramid-2', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid-2' },
-  { id: 'step-2-pyramid-3', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid-3' },
-  { id: 'step-2-pyramid-4', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid-4' },
-  { id: 'step-2-pyramid-5', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'pyramid-5' },
-  { id: 'step-3-growth',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 3, kotterVariant: 'growth' },
-  { id: 'step-3-triangle', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 3, kotterVariant: 'triangle' },
-  { id: 'step-4', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4 },
-  { id: 'step-5-sources',  className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'sources' },
-  { id: 'step-5-fragment', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'fragment' },
-  { id: 'step-6-wbs',      className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wbs' },
-  { id: 'step-6-gantt',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'gantt' },
-  { id: 'step-6-network',  className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'network' },
-  { id: 'step-6-momentum', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'momentum' },
-  { id: 'step-6-wins-1',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-1' },
-  { id: 'step-6-wins-2',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-2' },
-  { id: 'step-6-wins-3',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-3' },
-  { id: 'step-6-wins-4',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-4' },
-  { id: 'step-6-wins-5',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-5' },
-  { id: 'step-7-scale',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 7, kotterVariant: 'scale' },
-  { id: 'step-7-feedback', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 7, kotterVariant: 'feedback' },
-  { id: 'step-8-1', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8, kotterVariant: 'values-1' },
-  { id: 'step-8-2', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8, kotterVariant: 'values-2' },
-  { id: 'step-8-3', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8, kotterVariant: 'values-3' },
-  { id: 'step-8-4', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8, kotterVariant: 'values-4' },
-  { id: 'step-8-5', className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 8, kotterVariant: 'values-5' },
+  { id: 'roadmap-overview', className: 'slide-kotter', Component: KotterOverviewSlide, kotterStep: 0 },
+
+  // Step 1 · The Fit
+  { id: 'step-1-fit',       className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 1, kotterVariant: 'fit' },
+
+  // Step 2 · The Analysis
+  { id: 'step-2-analysis',  className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 2, kotterVariant: 'analysis' },
+
+  // Step 3 · The Scope (rotating triangle — Budget → Timeline → Scope)
+  { id: 'step-3-budget',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 3, kotterVariant: 'budget' },
+  { id: 'step-3-timeline',  className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 3, kotterVariant: 'timeline' },
+  { id: 'step-3-scope',     className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 3, kotterVariant: 'scope' },
+
+  // Step 4 · The Team
+  { id: 'step-4-team-1',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'pyramid-1' },
+  { id: 'step-4-team-2',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'pyramid-2' },
+  { id: 'step-4-team-3',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'pyramid-3' },
+  { id: 'step-4-team-4',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'pyramid-4' },
+  { id: 'step-4-team-5',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'pyramid-5' },
+  { id: 'step-4-adkar',     className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'adkar' },
+
+  // Step 5 · The Risks
+  { id: 'step-5-wbs',       className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'wbs' },
+  { id: 'step-5-gantt',     className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'gantt' },
+  { id: 'step-5-network',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'network' },
+  { id: 'step-5-matrix',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'matrix' },
+  { id: 'step-5-fragment',  className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'fragment' },
+
+  // Step 6 · The Proof
+  { id: 'step-6-proof-1',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-1' },
+  { id: 'step-6-proof-2',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-2' },
+  { id: 'step-6-proof-3',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-3' },
+  { id: 'step-6-proof-4',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-4' },
+  { id: 'step-6-proof-5',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 6, kotterVariant: 'wins-5' },
 
   { id: 'closing', className: 'slide-close',  Component: ClosingSlide },
   { id: 'thanks-1', className: 'slide-thanks', Component: ThanksSlide, stage: 1 },
