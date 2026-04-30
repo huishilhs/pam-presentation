@@ -1,55 +1,46 @@
-export default function LastSemSlide() {
+'use client';
+
+import { useEffect, useState } from 'react';
+
+export default function LastSemSlide({ isActive }) {
+  const [phase, setPhase] = useState(0);
+
+  useEffect(() => {
+    if (!isActive) {
+      setPhase(0);
+      return;
+    }
+    const timers = [
+      setTimeout(() => setPhase(1), 600),    // intro line
+      setTimeout(() => setPhase(2), 1500),   // wordmark in
+      setTimeout(() => setPhase(3), 5000),   // dot morphs to plus
+      setTimeout(() => setPhase(4), 6000),   // tagline + sub
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, [isActive]);
+
+  const cls = (n) => (phase >= n ? 'is-shown' : '');
+
   return (
-    <div className="slide-inner">
-      <div className="recap-text">
-        <div className="eyebrow">Last semester</div>
-        <h2 className="pam-hero">Pam<span className="pam-hero-dot">.</span></h2>
-        <p className="pam-tagline">P&amp;G&apos;s AI-powered AR shopping assistant.</p>
-
-        <p>
-          An AR assistant that walks the consumer through every step of
-          the journey — from the aisle, to the shelf, to the moment they
-          throw the empty bottle away.
-        </p>
-        <p>
-          <strong>One platform. Every device. Every touchpoint.</strong>
-        </p>
-
-        <div className="devices-strip">
-          <div className="device-chip">
-            <svg viewBox="0 0 24 24">
-              <path d="M3 12h3l3-9 4 18 3-9h5" />
-            </svg>
-            <span className="device-chip-label">AR Glasses</span>
-          </div>
-          <div className="device-chip">
-            <svg viewBox="0 0 24 24">
-              <rect x="5" y="2" width="14" height="20" rx="2" />
-              <line x1="12" y1="18" x2="12" y2="18" />
-            </svg>
-            <span className="device-chip-label">Mobile</span>
-          </div>
-        </div>
-
-        <div className="persona-line">
-          Built for three personas drawn from 80,000 customer comments —
-          the phone in James&apos;s pocket, the glasses on his face, the
-          laptop on his desk.
-        </div>
+    <div className="slide-inner rebrand-slide">
+      <div className={`rebrand-eyebrow ${cls(1)}`}>
+        Last year, we introduced you to —
       </div>
 
-      <div className="video-frame">
-        <div className="video-placeholder">
-          <div className="play-btn">
-            <svg viewBox="0 0 24 24">
-              <polygon points="6 3 22 12 6 21 6 3" />
-            </svg>
-          </div>
-          <div className="video-label">Customer Journey</div>
-          <div className="video-title-text">
-            Pam at every stage — glasses, mobile, web
-          </div>
-        </div>
+      <div className={`rebrand-mark ${cls(2)} ${phase >= 3 ? 'is-plus' : ''}`}>
+        <span className="rebrand-pam">Pam</span>
+        <span className="rebrand-symbol">
+          <span className="rebrand-symbol-dot" />
+          <span className="rebrand-symbol-bar rebrand-symbol-bar-h" />
+          <span className="rebrand-symbol-bar rebrand-symbol-bar-v" />
+        </span>
+      </div>
+
+      <div className={`rebrand-tagline ${cls(4)}`}>
+        This year, Pam does <strong>more.</strong>
+      </div>
+      <div className={`rebrand-sub ${cls(4)}`}>
+        One platform. Every device. Every touchpoint.
       </div>
     </div>
   );

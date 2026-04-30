@@ -9,6 +9,7 @@ import HookSlide from './slides/HookSlide';
 import PersonaSlide, { PersonaMeetSlide } from './slides/PersonaSlide';
 // import TeamSlide from './slides/TeamSlide';
 import OpeningSlide from './slides/OpeningSlide';
+import CantBlameSlide from './slides/CantBlameSlide';
 import LastSemSlide from './slides/LastSemSlide';
 import TodaySlide from './slides/TodaySlide';
 // import WhySlide from './slides/WhySlide';
@@ -27,12 +28,13 @@ import ThanksSlide from './slides/ThanksSlide';
 const SLIDES = [
   // { id: 'title',   className: 'slide-title',   Component: TitleSlide },
   { id: 'hook',    className: 'slide-hook',    Component: HookSlide },
-  { id: 'persona-meet', className: 'slide-persona', Component: PersonaMeetSlide },
-  { id: 'persona',      className: 'slide-persona', Component: PersonaSlide },
+  { id: 'persona-meet', className: 'slide-cut', Component: PersonaMeetSlide },
+  { id: 'persona',      className: 'slide-voicemail', Component: PersonaSlide },
   // { id: 'team',    className: 'slide-team',    Component: TeamSlide },
-  { id: 'opening', className: 'slide-opening', Component: OpeningSlide },
-  { id: 'last-sem', className: 'slide-recap slide-last-sem', Component: LastSemSlide },
-  { id: 'today',    className: 'slide-recap slide-today',    Component: TodaySlide },
+  { id: 'opening', className: 'slide-stats', Component: OpeningSlide },
+  { id: 'cant-blame', className: 'slide-cantblame', Component: CantBlameSlide },
+  { id: 'last-sem', className: 'slide-rebrand', Component: LastSemSlide },
+  { id: 'today',    className: 'slide-pamplus',    Component: TodaySlide },
   { id: 'why-kotter', className: 'slide-why-kotter', Component: WhyKotterSlide },
   // { id: 'why',     className: 'slide-why',     Component: WhySlide },
 
