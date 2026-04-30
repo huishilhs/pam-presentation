@@ -22,14 +22,10 @@ export default function ClosingSlide() {
       </div>
 
       <div className="closing-video">
-        <video
+        <img
           className="closing-video-el"
-          src="/closing.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/closing-poster.jpg"
+          src="/ending_image.jpeg"
+          alt="James at the shelf"
         />
       </div>
 

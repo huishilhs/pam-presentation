@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 
 const TEAM = [
-  { first: 'Cecilia', last: 'Urrutia Martinez', tone: 'blue',  img: '/team/cecilia.jpg', initials: 'CU' },
-  { first: 'Huishi',  last: 'Li',               tone: 'green', img: '/team/huishi.jpg',  initials: 'HL' },
-  { first: 'Eklavya', last: 'Gupta',            tone: 'red',   img: '/team/eklavya.jpg', initials: 'EG' },
+  { first: 'Cecilia', last: 'Urrutia Martinez', tone: 'blue',  img: '/Cecilia_Urrutia_Picture.jpeg', initials: 'CU' },
+  { first: 'Huishi',  last: 'Li',               tone: 'green', img: '/Huishi_Picture.JPG',           initials: 'HL' },
+  { first: 'Eklavya', last: 'Gupta',            tone: 'red',   img: '/Eklavya_Picture.jpeg',         initials: 'EG' },
 ];
 
 export default function ThanksSlide({ stage = 1, isActive = false }) {
