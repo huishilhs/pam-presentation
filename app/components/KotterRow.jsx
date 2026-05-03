@@ -20,7 +20,7 @@ function getStepOffset(step) {
   return (step - 3.5) * STEP_WIDTH;
 }
 
-export default function KotterRow({ activeStep }) {
+export default function KotterRow({ activeStep, onStepClick }) {
   const rowRef = useRef(null);
 
   useEffect(() => {
@@ -56,12 +56,18 @@ export default function KotterRow({ activeStep }) {
             else if (num < activeStep) stateClass = 'is-visited';
           }
           return (
-            <div key={num} className={`kotter-step ${stateClass}`}>
+            <button
+              key={num}
+              type="button"
+              className={`kotter-step ${stateClass}`}
+              onClick={() => onStepClick && onStepClick(num)}
+              aria-label={`Jump to step ${num}: ${label}`}
+            >
               <div className="step-name">{label}</div>
               <div className="step-circle">
                 {String(num).padStart(2, '0')}
               </div>
-            </div>
+            </button>
           );
         })}
       </div>

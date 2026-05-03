@@ -1,7 +1,7 @@
 export default function ClosingSlide() {
   return (
     <div className="slide-inner closing-roadmap">
-      <div className="closing-eyebrow">James&apos;s journey</div>
+      <div className="closing-eyebrow">Eklavya&apos;s journey</div>
 
       <div className="closing-track">
         <div className="closing-stop">

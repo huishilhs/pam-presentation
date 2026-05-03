@@ -156,7 +156,6 @@ function UrgencyAnalysis() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 02 · The Analysis</div>
         <div className="step-intro-heading">
           The gap inside P&amp;G.
         </div>
@@ -171,36 +170,23 @@ function UrgencyAnalysis() {
           <SevenSDiagram />
         </div>
 
-        <div className="seven-s-cards">
-          <div className="seven-s-card">
-            <div className="seven-s-card-title">Strategy</div>
-            <div className="seven-s-card-detail">
-              Integrated Growth Strategy demands superiority in retail
-              execution and consumer value. Across 80,000 comments, it
-              goes silent at the moment that matters most.
-            </div>
-          </div>
-          <div className="seven-s-card">
-            <div className="seven-s-card-title">Structure</div>
-            <div className="seven-s-card-detail">
-              Built to serve categories, not customer journeys. No single
-              owner of the end-to-end consumer experience.
-            </div>
-          </div>
-          <div className="seven-s-card">
-            <div className="seven-s-card-title">Systems</div>
-            <div className="seven-s-card-detail">
-              World-class supply chain — optimised inward. 30% of
-              low-rating comments come from post-purchase failures.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="inline-stat" style={{ marginTop: '1.2rem' }}>
-        <strong>80,000 customer comments.</strong> Different products,
-        different brands —{' '}
-        <strong>same three S&apos;s breaking every time.</strong>
+        <ul className="seven-s-lines">
+          <li className="seven-s-line">
+            <span className="seven-s-line-key"><span className="seven-s-letter">S</span>trategy</span>
+            <span className="seven-s-line-dash">—</span>
+            <span className="seven-s-line-text">Unprepared integrated growth strategy.</span>
+          </li>
+          <li className="seven-s-line">
+            <span className="seven-s-line-key"><span className="seven-s-letter">S</span>ystems</span>
+            <span className="seven-s-line-dash">—</span>
+            <span className="seven-s-line-text">Optimising everything before purchase.</span>
+          </li>
+          <li className="seven-s-line">
+            <span className="seven-s-line-key"><span className="seven-s-letter">S</span>tructure</span>
+            <span className="seven-s-line-dash">—</span>
+            <span className="seven-s-line-text">Decentralised. No one owns post-purchase.</span>
+          </li>
+        </ul>
       </div>
     </>
   );
@@ -222,7 +208,6 @@ function UrgencyConclusion() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 01 · Urgency</div>
         <div className="step-intro-heading">A pattern, not an outlier.</div>
         <div className="step-intro-tagline">
           The strategy is right. The talent is right. The customer still
@@ -279,7 +264,6 @@ function CoalitionCulture() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 02 · Coalition</div>
         <div className="step-intro-heading">
           P&amp;G&apos;s people are the engine.
         </div>
@@ -329,7 +313,6 @@ function CoalitionStakeholder() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 02 · Coalition</div>
         <div className="step-intro-heading">
           Stakeholder analysis.
         </div>
@@ -416,7 +399,6 @@ function CoalitionPyramid({ visibleCount = 5 }) {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 04 · The Team</div>
         <div className="step-intro-heading">
           Five tiers. One owner of CX.
         </div>
@@ -454,7 +436,6 @@ function VisionGrowth() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 01 · The Fit</div>
         <div className="step-intro-heading">
           The strategic vision Pam+ represents.
         </div>
@@ -505,7 +486,7 @@ function VisionGrowth() {
 
       <div className="inline-stat" style={{ marginTop: '1rem' }}>
         Pam is the experience layer that{' '}
-        <strong>finally closes the gap</strong> between P&amp;G&apos;s
+        <strong>finally closes the gap </strong> between P&amp;G&apos;s
         investment and the consumer who is supposed to feel it.
       </div>
     </>
@@ -518,7 +499,7 @@ const TRIANGLE_CONSTRAINTS = {
   budget: {
     label: 'Budget',
     value: '£1M',
-    sub: 'Cost breakdown: £940K',
+    sub: 'Cost breakdown: £900K',
   },
   timeline: {
     label: 'Timeline',
@@ -550,7 +531,6 @@ function VisionTriangle({ variant }) {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 03 · The Scope</div>
         <div className="step-intro-heading">
           Disciplined delivery.
         </div>
@@ -672,22 +652,30 @@ function ProjectedReturnPanel() {
 }
 
 function ScopeLockedPanel() {
-  const devices = ['Your phone.', 'Your glasses.', 'Your laptop.'];
   return (
     <>
       <div className="triangle-roi-eyebrow">Scope locked</div>
-      <div className="scope-headline">The device already exists.</div>
-      <ul className="scope-devices">
-        {devices.map((d) => (
-          <li key={d} className="scope-device">
-            {d}
-          </li>
-        ))}
+      <ul className="scope-list">
+        <li className="scope-list-item">
+          <div className="scope-list-label">Deliverables</div>
+          <div className="scope-list-text">
+            AI/AR software platform, covering the full consumer journey.
+          </div>
+        </li>
+        <li className="scope-list-item">
+          <div className="scope-list-label">Boundaries</div>
+          <div className="scope-list-text">
+            Software only. No hardware, no device procurement.
+          </div>
+        </li>
+        <li className="scope-list-item">
+          <div className="scope-list-label">Requirements</div>
+          <div className="scope-list-text">
+            AR product recognition, guided usage support, community
+            integration, systems integration.
+          </div>
+        </li>
       </ul>
-      <div className="scope-payoff">
-        We don&apos;t sell hardware.{' '}
-        <span className="highlight-yellow-bg">We make the hardware work.</span>
-      </div>
     </>
   );
 }
@@ -699,7 +687,6 @@ function EnlistContent() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 04 · The Team · ADKAR</div>
         <div className="step-intro-heading">
           Bottom-up. One person at a time.
         </div>
@@ -812,7 +799,6 @@ function EnableSources() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 05 · The Risks</div>
         <div className="step-intro-heading">
           A systematic risk identification process.
         </div>
@@ -889,7 +875,6 @@ function EnableMatrix() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 05 · The Risks · Matrix</div>
         <div className="step-intro-heading">
           9 risks. All accounted for.
         </div>
@@ -1000,7 +985,6 @@ function EnableFragment() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 05 · The Risks · In focus</div>
         <div className="step-intro-heading">
           Fragmented SBU adoption.
         </div>
@@ -1077,7 +1061,6 @@ function WinsMomentum() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 06 · Momentum</div>
         <div className="step-intro-heading">
           Winning early. Winning visibly.
         </div>
@@ -1143,7 +1126,6 @@ function WinsWbs() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 05 · The Risks · WBS</div>
         <div className="step-intro-heading">
           Work Breakdown Structure.
         </div>
@@ -1189,7 +1171,6 @@ function WinsNetwork() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 05 · The Risks · Critical Path</div>
         <div className="step-intro-heading">
           Every dependency mapped.
         </div>
@@ -1242,7 +1223,6 @@ function WinsGantt() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 05 · The Risks · Timeline</div>
         <div className="step-intro-heading">
           Wins are milestones. Milestones are gates.
         </div>
@@ -1337,7 +1317,6 @@ function WinsList({ visibleCount = 5 }) {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 06 · The Proof</div>
         <div className="step-intro-heading">
           Five gated proofs. Before we scale.
         </div>
@@ -1374,7 +1353,6 @@ function SustainScale() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 07 · Living system</div>
         <div className="step-intro-heading">
           More than CX. An organisation tool.
         </div>
@@ -1425,7 +1403,6 @@ function SustainFeedback() {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 07 · The moat</div>
         <div className="step-intro-heading">
           The network effect is the moat.
         </div>
@@ -1502,7 +1479,6 @@ function InstituteContent({ variant }) {
   return (
     <>
       <div className="step-intro">
-        <div className="step-intro-number">Step 08 · Institute change</div>
         <div className="step-intro-heading">
           Month 36. Pam+ is how P&amp;G works.
         </div>

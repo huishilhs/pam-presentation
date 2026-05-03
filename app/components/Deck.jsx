@@ -17,6 +17,7 @@ import WhyKotterSlide from './slides/WhyKotterSlide';
 import KotterOverviewSlide from './slides/KotterOverviewSlide';
 import ClosingSlide from './slides/ClosingSlide';
 import ThanksSlide from './slides/ThanksSlide';
+import JourneySlide from './slides/JourneySlide';
 
 // =====================================================
 // SLIDE ORDER — edit here to add / remove / reorder
@@ -77,6 +78,8 @@ const SLIDES = [
   { id: 'thanks-1', className: 'slide-thanks', Component: ThanksSlide, stage: 1 },
   { id: 'thanks-2', className: 'slide-thanks', Component: ThanksSlide, stage: 2 },
   { id: 'thanks-3', className: 'slide-thanks', Component: ThanksSlide, stage: 3 },
+
+  { id: 'journey', className: 'slide-journey', Component: JourneySlide },
 ];
 
 // Blank placeholder for Kotter step slides — the visual content is
@@ -135,6 +138,7 @@ export default function Deck() {
       // Phase 2 · after pause, zoom IN to new step
       const t1 = setTimeout(() => {
         setDisplayStep(targetKotter);
+        lastKotterStepRef.current = targetKotter;
 
         // Phase 3 · show content after zoom-in completes
         const t2 = setTimeout(() => setShowContent(true), 700);
@@ -144,13 +148,12 @@ export default function Deck() {
     } else {
       // Direct transition
       setDisplayStep(targetKotter);
+      lastKotterStepRef.current = targetKotter;
       if (targetKotter > 0) {
         const t = setTimeout(() => setShowContent(true), 800);
         timeoutsRef.current.push(t);
       }
     }
-
-    lastKotterStepRef.current = targetKotter;
 
     return () => {
       timeoutsRef.current.forEach((t) => clearTimeout(t));
@@ -201,7 +204,13 @@ export default function Deck() {
         })}
       </div>
 
-      <KotterRow activeStep={displayStep} />
+      <KotterRow
+        activeStep={displayStep}
+        onStepClick={(step) => {
+          const target = SLIDES.findIndex((s) => s.kotterStep === step);
+          if (target >= 0) setIndex(target);
+        }}
+      />
       <KotterContent
         activeStep={showContent ? displayStep : null}
         activeVariant={showContent ? targetVariant : null}
