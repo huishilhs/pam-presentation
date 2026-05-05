@@ -1,22 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 const QR_PIXELS = 220;
+const CHAT_URL =
+  process.env.NEXT_PUBLIC_CHAT_URL || 'https://pam-presentation.vercel.app/chat';
 
 export default function AskPamQR() {
-  const [url, setUrl] = useState(null);
-
-  useEffect(() => {
-    const env = process.env.NEXT_PUBLIC_CHAT_URL;
-    if (env) {
-      setUrl(env);
-    } else if (typeof window !== 'undefined') {
-      setUrl(`${window.location.origin}/chat`);
-    }
-  }, []);
-
-  if (!url) return null;
+  const url = CHAT_URL;
 
   const qrSrc =
     `https://api.qrserver.com/v1/create-qr-code/?size=${QR_PIXELS}x${QR_PIXELS}` +

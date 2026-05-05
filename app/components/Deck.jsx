@@ -18,6 +18,7 @@ import KotterOverviewSlide from './slides/KotterOverviewSlide';
 import ClosingSlide from './slides/ClosingSlide';
 import ThanksSlide from './slides/ThanksSlide';
 import JourneySlide from './slides/JourneySlide';
+import QRSlide from './slides/QRSlide';
 
 // =====================================================
 // SLIDE ORDER — edit here to add / remove / reorder
@@ -87,6 +88,7 @@ const SLIDES = [
   { id: 'thanks-2', className: 'slide-thanks', Component: ThanksSlide, stage: 2 },
   { id: 'thanks-3', className: 'slide-thanks', Component: ThanksSlide, stage: 3 },
 
+  { id: 'qr',      className: 'slide-qr',      Component: QRSlide },
   { id: 'journey', className: 'slide-journey', Component: JourneySlide },
 ];
 
