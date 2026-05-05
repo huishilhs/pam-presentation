@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import AskPamQR from '../AskPamQR';
 
 const STAGES = [
   {
@@ -50,6 +51,7 @@ export default function JourneySlide() {
 
   return (
     <div className="slide-inner journey-slide">
+      <AskPamQR />
       <div className="journey-header">
         <h2 className="journey-title">
           <span className="pam-hero" style={{ fontSize: 'inherit' }}>
