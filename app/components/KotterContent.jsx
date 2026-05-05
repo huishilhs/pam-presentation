@@ -30,19 +30,207 @@ export default function KotterContent({ activeStep, activeVariant }) {
 }
 
 function TeamContent({ variant }) {
+  if (variant === 'kotter') return <KotterEightSteps />;
+  if (variant === 'frameworks') return <KotterAdkarBridge />;
   if (variant === 'adkar') return <EnlistContent />;
   const m = variant && variant.match(/^pyramid-(\d+)$/);
   const visibleCount = m ? Math.min(parseInt(m[1], 10), 5) : 5;
   return <CoalitionPyramid visibleCount={visibleCount} />;
 }
 
+const KOTTER_8_STEPS = [
+  {
+    num: '01',
+    title: 'Create urgency',
+    tone: 'blue',
+    body: <>The post-purchase moment is when P&amp;G goes silent. <strong>80,000 comments</strong> say the gap is real.</>,
+    bullets: [
+      'CX gap made visible to every team',
+      'Tied to the 80K complaint dataset',
+      '30% of low-ratings are post-purchase',
+    ],
+  },
+  {
+    num: '02',
+    title: 'Build a guiding coalition',
+    tone: 'teal',
+    body: <>Five SBU Integration Leads, plus executive backing under <strong>Seth Cohen</strong>.</>,
+    bullets: [
+      'COO + CIO mandate above all SBUs',
+      'One owner per business unit',
+      'Cross-functional, no external deps',
+    ],
+  },
+  {
+    num: '03',
+    title: 'Form a strategic vision',
+    tone: 'yellow',
+    body: <>Pam <strong>is</strong> the strategy: brand communication, retail execution, consumer value.</>,
+    bullets: [
+      'Right info, right person, right moment',
+      'Every aisle, every brand, every device',
+      'The strategy made tangible',
+    ],
+  },
+  {
+    num: '04',
+    title: 'Enlist a volunteer army',
+    tone: 'orange',
+    body: <>ADKAR-driven enrolment: <strong>every employee, one person at a time</strong>.</>,
+    bullets: [
+      'Awareness through real customer data',
+      'Desire grounded in personal benefit',
+      'Knowledge → ability → reinforcement',
+    ],
+  },
+  {
+    num: '05',
+    title: 'Enable action',
+    tone: 'coral',
+    body: <>Risk register, gated stage reviews, silos removed before they slow the build.</>,
+    bullets: [
+      'Nine risks scored, shaped into the plan',
+      'Single-owner structure replaces silos',
+      'Phase gates protect scope and budget',
+    ],
+  },
+  {
+    num: '06',
+    title: 'Generate easy wins',
+    tone: 'pink',
+    body: <>Five gated proofs. Before we scale, every assumption is tested.</>,
+    bullets: [
+      'Week 7: scope locked, board signs off',
+      'Month 8: 500+ SKUs live on AR',
+      'Month 13: 50 shoppers prove usability',
+    ],
+  },
+  {
+    num: '07',
+    title: 'Increase the pace',
+    tone: 'purple',
+    body: <>Phase 1 wins fund Phase 2 scale-up. <strong>Momentum compounds.</strong></>,
+    bullets: [
+      'UK scale-up: 800 stores after pilot',
+      'Boards renew on evidence, not promises',
+      'New SBUs onboarded every release',
+    ],
+  },
+  {
+    num: '08',
+    title: 'Institute change',
+    tone: 'sky',
+    body: <>Pam becomes a <strong>living system</strong>. Not a project.</>,
+    bullets: [
+      'Embedded in P&G\'s operating rhythm',
+      'Continuous feedback into product teams',
+      'The new default for consumer experience',
+    ],
+  },
+];
+
+function KotterEightSteps() {
+  return (
+    <>
+      <div className="step-intro">
+        <div className="step-intro-heading">
+          Top-down. The whole organisation, in step.
+        </div>
+        <div className="step-intro-tagline">
+          Kotter&apos;s eight steps tell us how leadership authorises Pam,
+          removes the barriers, and keeps the change moving.
+        </div>
+      </div>
+
+      <div className="kotter-detail-row adkar-zoom-in">
+        {KOTTER_8_STEPS.map((s) => (
+          <div
+            key={s.num}
+            className={`adkar-detail-card kotter-tone-${s.tone}`}
+          >
+            <div className="adkar-detail-stage">Step {s.num}</div>
+            <div className="adkar-detail-letter">{s.num}</div>
+            <div className="adkar-detail-title">{s.title}</div>
+            <div className="adkar-detail-body">{s.body}</div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function KotterAdkarBridge() {
+  return (
+    <>
+      <div className="step-intro">
+        <div className="step-intro-heading">
+          Two frameworks. One coalition.
+        </div>
+        <div className="step-intro-tagline">
+          Kotter moves the organisation top-down. ADKAR moves each
+          person bottom-up. Together they meet in the middle.
+        </div>
+      </div>
+
+      <div className="bridge-grid">
+        <div className="bridge-card bridge-card-kotter">
+          <div className="bridge-card-tag">Kotter</div>
+          <div className="bridge-card-title">Top-down</div>
+          <div className="bridge-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 40 80" preserveAspectRatio="xMidYMid meet">
+              <path
+                d="M 18,4 L 18,58 L 8,58 L 20,76 L 32,58 L 22,58 L 22,4 Z"
+                fill="#dc2626"
+              />
+            </svg>
+          </div>
+          <div className="bridge-card-detail">
+            Vision. Coalition. Empowerment. The leadership signal that
+            authorises the change to happen at all.
+          </div>
+        </div>
+
+        <div className="bridge-meet">
+          <span className="bridge-meet-label">meet in the middle</span>
+        </div>
+
+        <div className="bridge-card bridge-card-adkar">
+          <div className="bridge-card-tag">ADKAR</div>
+          <div className="bridge-card-title">Bottom-up</div>
+          <div className="bridge-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 40 80" preserveAspectRatio="xMidYMid meet">
+              <path
+                d="M 18,76 L 18,22 L 8,22 L 20,4 L 32,22 L 22,22 L 22,76 Z"
+                fill="#dc2626"
+              />
+            </svg>
+          </div>
+          <div className="bridge-card-detail">
+            Awareness. Desire. Knowledge. Ability. Reinforcement. The
+            individual journey every employee actually walks.
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 function RisksContent({ variant }) {
+  if (variant === 'wbs-full') return <WbsFull />;
   if (variant === 'wbs') return <WinsWbs />;
   if (variant === 'gantt') return <WinsGantt />;
   if (variant === 'network') return <WinsNetwork />;
   if (variant === 'matrix') return <EnableMatrix />;
   if (variant === 'fragment') return <EnableFragment />;
   return <EnableSources />;
+}
+
+function WbsFull() {
+  return (
+    <div className="wbs-full">
+      <img src="/full_wbs.png" alt="Full Work Breakdown Structure" />
+    </div>
+  );
 }
 
 function ProofContent({ variant }) {
@@ -160,7 +348,7 @@ function UrgencyAnalysis() {
           The gap inside P&amp;G.
         </div>
         <div className="step-intro-tagline">
-          McKinsey 7-S reveals where the experience breaks — and why
+          McKinsey 7-S reveals where the experience breaks, and why
           it keeps breaking.
         </div>
       </div>
@@ -173,17 +361,17 @@ function UrgencyAnalysis() {
         <ul className="seven-s-lines">
           <li className="seven-s-line">
             <span className="seven-s-line-key"><span className="seven-s-letter">S</span>trategy</span>
-            <span className="seven-s-line-dash">—</span>
+            <span className="seven-s-line-dash">·</span>
             <span className="seven-s-line-text">Unprepared integrated growth strategy.</span>
           </li>
           <li className="seven-s-line">
             <span className="seven-s-line-key"><span className="seven-s-letter">S</span>ystems</span>
-            <span className="seven-s-line-dash">—</span>
+            <span className="seven-s-line-dash">·</span>
             <span className="seven-s-line-text">Optimising everything before purchase.</span>
           </li>
           <li className="seven-s-line">
             <span className="seven-s-line-key"><span className="seven-s-letter">S</span>tructure</span>
-            <span className="seven-s-line-dash">—</span>
+            <span className="seven-s-line-dash">·</span>
             <span className="seven-s-line-text">Decentralised. No one owns post-purchase.</span>
           </li>
         </ul>
@@ -218,7 +406,7 @@ function UrgencyConclusion() {
       <div className="urgency-conclusion">
         <div className={`urgency-line ${cls(1)}`}>
           Different <strong>products</strong>, different{' '}
-          <strong>brands</strong>, different <strong>regions</strong> —
+          <strong>brands</strong>, different <strong>regions</strong>.
         </div>
         <div className={`urgency-line urgency-line-emphasis ${cls(2)}`}>
           the very same{' '}
@@ -279,7 +467,7 @@ function CoalitionCulture() {
           <div className="culture-card-title">People at the centre</div>
           <div className="culture-card-detail">
             P&amp;G has always put its people at the heart of how it
-            operates — and crucially, its employees know it.
+            operates, and crucially, its employees know it.
           </div>
         </div>
         <div className="culture-card">
@@ -294,7 +482,7 @@ function CoalitionCulture() {
           <div className="culture-card-num">03</div>
           <div className="culture-card-title">Accountability by design</div>
           <div className="culture-card-detail">
-            Decisions are made by people who can own the outcome — not
+            Decisions are made by people who can own the outcome, not
             observers.
           </div>
         </div>
@@ -317,7 +505,7 @@ function CoalitionStakeholder() {
           Stakeholder analysis.
         </div>
         <div className="step-intro-tagline">
-          Every function, every level, every external party — mapped by
+          Every function, every level, every external party, mapped by
           influence and interest.
         </div>
       </div>
@@ -365,26 +553,42 @@ const PYRAMID_TIERS = [
     num: '01',
     label: 'Executive',
     title: 'COO + CIO',
-    detail: 'Seth Cohen — the only mandate above all five SBUs.',
+    detail: 'Seth Cohen, the only mandate above all five SBUs.',
+    citations: [
+      { text: 'P&G, 2026', href: 'https://us.pg.com/leadership-team/seth-cohen/' },
+    ],
   },
   {
     num: '02',
     label: 'Technical',
     title: 'CEIT & Digital Experiences',
     detail: 'Integrated with Consumer 360, Connected Experiences, Project Genie.',
+    citations: [
+      { text: 'P&G, 2024', href: 'https://us.pg.com/blogs/keys-to-successful-digital-transformation/' },
+      { text: 'P&G, 2025', href: 'https://www.pgcareers.com/eu/en/ce-it-where-you-can-meet-us' },
+    ],
   },
   {
     num: '03',
     label: 'Business',
     title: 'Five SBU Integration Leads',
-    detail: 'Decision-makers, not observers — adapting Pam to each category.',
+    detail: 'Decision-makers, not observers, adapting Pam to each category.',
+    citations: [
+      { text: 'P&G, 2025' },
+    ],
   },
   {
     num: '04',
     label: 'Operational',
     title: 'Global Business Services',
     detail:
-      'Consumer contact and data governance — the exact layer where 30% of low-rating comments originated.',
+      'Consumer contact and data governance, the exact layer where 30% of low-rating comments originated.',
+    citations: [
+      {
+        text: 'Bloch and Lempres, 2008',
+        href: 'https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/from-internal-service-provider-to-strategic-partner-an-interview-with-the-head-of-global-business-services-at-p-and-g',
+      },
+    ],
   },
   {
     num: '05',
@@ -415,7 +619,31 @@ function CoalitionPyramid({ visibleCount = 5 }) {
             <div className="pyramid-tier-content">
               <div className="pyramid-tier-label">{t.label}</div>
               <div className="pyramid-tier-title">{t.title}</div>
-              <div className="pyramid-tier-detail">{t.detail}</div>
+              <div className="pyramid-tier-detail-col">
+                <div className="pyramid-tier-detail">{t.detail}</div>
+                {t.citations && t.citations.length > 0 && (
+                  <div className="pyramid-tier-citations">
+                    {t.citations.map((c, ci) => (
+                      <span key={c.text}>
+                        {ci === 0 ? '(' : '; '}
+                        {c.href ? (
+                          <a
+                            href={c.href}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="pyramid-tier-citation"
+                          >
+                            {c.text}
+                          </a>
+                        ) : (
+                          <span className="pyramid-tier-citation">{c.text}</span>
+                        )}
+                        {ci === t.citations.length - 1 ? ')' : ''}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -457,30 +685,34 @@ function VisionGrowth() {
         </div>
       </div>
 
-      <div className="growth-strategy-grid">
-        <div className="growth-strategy-card">
-          <div className="growth-strategy-num">01</div>
-          <div className="growth-strategy-title">Brand communication</div>
-          <div className="growth-strategy-detail">
-            The right message, in front of the right consumer, at the
-            right moment — across every product and every aisle.
-          </div>
+      <div className="growth-flow">
+        <div className="growth-pillar growth-pillar-blue">
+          <span className="growth-pillar-step">01</span>
+          <span className="growth-pillar-title">Brand<br />communication</span>
         </div>
-        <div className="growth-strategy-card">
-          <div className="growth-strategy-num">02</div>
-          <div className="growth-strategy-title">Retail execution</div>
-          <div className="growth-strategy-detail">
-            Shelf-level support that turns hesitation into confident
-            purchase. Superiority where the strategy used to go silent.
-          </div>
+        <div className="growth-flow-arrow" aria-hidden="true">
+          <svg viewBox="0 0 64 40" preserveAspectRatio="xMidYMid meet">
+            <path
+              d="M 0,14 L 32,14 L 32,4 L 60,20 L 32,36 L 32,26 L 0,26 Z"
+              fill="#dc2626"
+            />
+          </svg>
         </div>
-        <div className="growth-strategy-card">
-          <div className="growth-strategy-num">03</div>
-          <div className="growth-strategy-title">Consumer value</div>
-          <div className="growth-strategy-detail">
-            Every interaction — at the shelf, at home, after the sale —
-            builds trust rather than eroding it.
-          </div>
+        <div className="growth-pillar growth-pillar-cyan">
+          <span className="growth-pillar-step">02</span>
+          <span className="growth-pillar-title">Retail<br />execution</span>
+        </div>
+        <div className="growth-flow-arrow" aria-hidden="true">
+          <svg viewBox="0 0 64 40" preserveAspectRatio="xMidYMid meet">
+            <path
+              d="M 0,14 L 32,14 L 32,4 L 60,20 L 32,36 L 32,26 L 0,26 Z"
+              fill="#dc2626"
+            />
+          </svg>
+        </div>
+        <div className="growth-pillar growth-pillar-yellow">
+          <span className="growth-pillar-step">03</span>
+          <span className="growth-pillar-title">Consumer<br />value</span>
         </div>
       </div>
 
@@ -499,7 +731,7 @@ const TRIANGLE_CONSTRAINTS = {
   budget: {
     label: 'Budget',
     value: '£1M',
-    sub: 'Cost breakdown: £900K',
+    sub: 'Total project cost: £900K',
   },
   timeline: {
     label: 'Timeline',
@@ -535,7 +767,7 @@ function VisionTriangle({ variant }) {
           Disciplined delivery.
         </div>
         <div className="step-intro-tagline">
-          Fixed budget. Fixed timeline. Tight scope — protected by formal
+          Fixed budget. Fixed timeline. Tight scope, protected by formal
           stage reviews.
         </div>
       </div>
@@ -696,14 +928,14 @@ function EnlistContent() {
         </div>
       </div>
 
-      <div className="adkar-detail-row">
+      <div className="adkar-detail-row adkar-zoom-in">
         <div className="adkar-detail-card adkar-tone-red">
           <div className="adkar-detail-stage">Stage 01</div>
           <div className="adkar-detail-letter">A</div>
           <div className="adkar-detail-title">Awareness</div>
           <div className="adkar-detail-body">
             Every affected employee understands{' '}
-            <strong>why Pam is happening</strong> — grounded in real
+            <strong>why Pam is happening</strong>,grounded in real
             data, not corporate messaging.
           </div>
           <ul className="adkar-detail-list">
@@ -843,7 +1075,7 @@ function EnableSources() {
           <div className="risk-source-num">05</div>
           <div className="risk-source-name">GDPR &amp; legal scan</div>
           <div className="risk-source-detail">
-            Data, consent, and compliance risks — including ICO
+            Data, consent, and compliance risks, including ICO
             consultation.
           </div>
         </div>
@@ -960,15 +1192,15 @@ function EnableMatrix() {
         <div className="risk-list-block">
           <div className="risk-matrix-title">Priority risks &amp; response</div>
           <ul className="risk-list">
-            <li><span className="risk-tag risk-tag-purple">R01</span><div><strong>AI Recommendation Error</strong> — Extreme. Mitigate via human-override layer and phased rollout starting with low-sensitivity categories.</div></li>
-            <li><span className="risk-tag risk-tag-pink">R02</span><div><strong>GDPR Non-Compliance</strong> — Extreme. Avoided via DPIA, ICO consultation, and opt-in design baked into Month 2-4.</div></li>
-            <li><span className="risk-tag risk-tag-pink">R03</span><div><strong>Fragmented SBU Adoption</strong> — Extreme. Structurally addressed by the coalition design in Step 2.</div></li>
-            <li><span className="risk-tag risk-tag-pink">R04</span><div><strong>Critical Path Delay</strong> — High. Limited via phase gates and bi-weekly risk reviews.</div></li>
-            <li><span className="risk-tag risk-tag-cyan">R05</span><div><strong>Consumer Adoption Resistance</strong> — High. Mitigated by smartphone fallback and beta testing before go-live.</div></li>
-            <li><span className="risk-tag risk-tag-orange">R06</span><div><strong>Budget Overrun</strong> — High. Controlled by EVM tracking and strict scope gates between phases.</div></li>
-            <li><span className="risk-tag risk-tag-orange">R07</span><div><strong>Retailer Resistance</strong> — High. Mitigated by joint business planning and revenue share from Month 3.</div></li>
-            <li><span className="risk-tag risk-tag-green">R08</span><div><strong>Staff Digital Fluency Gap</strong> — High. Addressed by ADKAR plan and SBU-embedded Change Agents.</div></li>
-            <li><span className="risk-tag risk-tag-cyan">R09</span><div><strong>Competitor Replication</strong> — Moderate. Accepted. Pam&apos;s moat is proprietary AI and network effects.</div></li>
+            <li><span className="risk-tag risk-tag-purple">R01</span><div><strong>AI Recommendation Error</strong>,Extreme. Mitigate via human-override layer and phased rollout starting with low-sensitivity categories.</div></li>
+            <li><span className="risk-tag risk-tag-pink">R02</span><div><strong>GDPR Non-Compliance</strong>,Extreme. Avoided via DPIA, ICO consultation, and opt-in design baked into Month 2-4.</div></li>
+            <li><span className="risk-tag risk-tag-pink">R03</span><div><strong>Fragmented SBU Adoption</strong>,Extreme. Structurally addressed by the coalition design in Step 2.</div></li>
+            <li><span className="risk-tag risk-tag-pink">R04</span><div><strong>Critical Path Delay</strong>,High. Limited via phase gates and bi-weekly risk reviews.</div></li>
+            <li><span className="risk-tag risk-tag-cyan">R05</span><div><strong>Consumer Adoption Resistance</strong>,High. Mitigated by smartphone fallback and beta testing before go-live.</div></li>
+            <li><span className="risk-tag risk-tag-orange">R06</span><div><strong>Budget Overrun</strong>,High. Controlled by EVM tracking and strict scope gates between phases.</div></li>
+            <li><span className="risk-tag risk-tag-orange">R07</span><div><strong>Retailer Resistance</strong>,High. Mitigated by joint business planning and revenue share from Month 3.</div></li>
+            <li><span className="risk-tag risk-tag-green">R08</span><div><strong>Staff Digital Fluency Gap</strong>,High. Addressed by ADKAR plan and SBU-embedded Change Agents.</div></li>
+            <li><span className="risk-tag risk-tag-cyan">R09</span><div><strong>Competitor Replication</strong>,Moderate. Accepted. Pam&apos;s moat is proprietary AI and network effects.</div></li>
           </ul>
         </div>
       </div>
@@ -990,7 +1222,7 @@ function EnableFragment() {
         </div>
         <div className="step-intro-tagline">
           P&amp;G&apos;s decentralised structure could mean Pam is
-          adopted five different ways — or ignored entirely.
+          adopted five different ways, or ignored entirely.
         </div>
       </div>
 
@@ -1021,8 +1253,8 @@ function EnableFragment() {
           <div className="fragment-target">
             <div className="fragment-target-title">Coalition design</div>
             <div className="fragment-target-detail">
-              The five-tier pyramid — and the dedicated SBU Integration
-              Lead in every business unit — exists because of this risk.
+              The five-tier pyramid, and the dedicated SBU Integration
+              Lead in every business unit, exists because of this risk.
             </div>
           </div>
           <div className="fragment-target">
@@ -1073,7 +1305,7 @@ function WinsMomentum() {
         <div className="momentum-quote">
           What actually keeps a transformation this size{' '}
           <span className="highlight-yellow-bg">alive, funded, and moving</span>{' '}
-          — especially at rollout — is <strong>momentum</strong>.
+          (especially at rollout) is <strong>momentum</strong>.
         </div>
         <div className="momentum-quote-sub">
           And momentum in change management comes from one thing and one
@@ -1094,7 +1326,7 @@ function WinsMomentum() {
           <div className="momentum-pillar-num">02</div>
           <div className="momentum-pillar-title">Funded</div>
           <div className="momentum-pillar-detail">
-            Boards renew budget on evidence — not promises. Wins
+            Boards renew budget on evidence, not promises. Wins
             unlock the next tranche.
           </div>
         </div>
@@ -1130,7 +1362,7 @@ function WinsWbs() {
           Work Breakdown Structure.
         </div>
         <div className="step-intro-tagline">
-          Pam&apos;s delivery decomposed into eight work packages — each
+          Pam&apos;s delivery decomposed into eight work packages, each
           owned, scoped, and resourced.
         </div>
       </div>
@@ -1157,17 +1389,6 @@ function WinsWbs() {
 }
 
 function WinsNetwork() {
-  const path = [
-    { id: 'A', name: 'Research & Discovery', dur: '4w' },
-    { id: 'C', name: 'UX Personas & Journeys', dur: '4w' },
-    { id: 'G', name: 'Wireframing & Prototyping', dur: '4w' },
-    { id: 'I', name: 'Core Feature Development', dur: '16w' },
-    { id: 'L', name: 'UX Internal Testing', dur: '4w' },
-    { id: 'O', name: 'External Beta Testing', dur: '4w' },
-    { id: 'P', name: 'Pilot Launch', dur: '4w' },
-    { id: 'R', name: 'Full National Rollout', dur: '12w' },
-  ];
-
   return (
     <>
       <div className="step-intro">
@@ -1175,26 +1396,21 @@ function WinsNetwork() {
           Every dependency mapped.
         </div>
         <div className="step-intro-tagline">
-          18 activities. Eight on the critical path. Zero float on the
+          18 activities. Ten on the critical path. Zero float on the
           chain that decides the timeline.
         </div>
       </div>
 
-      <div className="network-path">
-        {path.map((node, i) => (
-          <div key={node.id} className="network-node-wrap">
-            <div className="network-node">
-              <div className="network-node-id">{node.id}</div>
-              <div className="network-node-name">{node.name}</div>
-              <div className="network-node-dur">{node.dur}</div>
-            </div>
-            {i < path.length - 1 && <div className="network-edge">→</div>}
-          </div>
-        ))}
+      <div className="network-image-wrap">
+        <img
+          src="/Network_Diagram.png"
+          alt="CPM network diagram showing all 18 activities, dependencies, ES/EF/LS/LF, float, and the critical path in red."
+          className="network-image"
+        />
       </div>
 
-      <div className="inline-stat" style={{ marginTop: '1.2rem' }}>
-        Slip any one of these eight, and the launch slips.{' '}
+      <div className="inline-stat" style={{ marginTop: '1rem' }}>
+        Slip any activity on the red chain, and the launch slips.{' '}
         <strong>That is exactly why we monitor them weekly.</strong>
       </div>
     </>
@@ -1228,7 +1444,7 @@ function WinsGantt() {
         </div>
         <div className="step-intro-tagline">
           Every short-term win is a formally documented project
-          milestone — sequenced, tracked, gated.
+          milestone, sequenced, tracked, gated.
         </div>
       </div>
 
@@ -1285,31 +1501,35 @@ const WIN_CARDS = [
     when: 'Week 7 · Gate 1',
     title: 'Pam becomes a programme',
     detail:
-      'Research complete. Scope locked. Governance live. Board signs off the build budget — proof the coalition works.',
+      'Research complete. Scope locked. Governance live. Board signs off the build budget. Proof the coalition works.',
   },
   {
     when: 'Month 5 · Gate 2',
     title: 'The market says yes',
     detail:
-      'MOUs signed. Five pilot stores selected. Retailers at the table — real-world commercial support secured.',
+      'MOUs signed. Five pilot stores selected. Retailers at the table. Real-world commercial support secured.',
   },
   {
     when: 'Month 8 · Gate 3',
     title: 'The product works',
     detail:
-      'AR platform built. 500+ P&G SKUs live. A shopper holds up a Gillette — and Pam knows exactly what it is.',
+      'AR platform built. 500+ P&G SKUs live. A shopper holds up a Gillette. Pam knows exactly what it is.',
   },
   {
     when: 'Month 13 · Gate 4',
     title: 'Real consumers say it works',
     detail:
-      '50 shoppers. Real stores. Think-aloud testing. SUS score ≥ 75 — not just impressive, genuinely easy to use.',
+      '50 shoppers. Real stores. Think-aloud testing. SUS score ≥ 75. Not just impressive, genuinely easy to use.',
   },
   {
     when: 'Month 18 · Go / No-Go',
     title: 'The numbers say it works',
-    detail:
-      '+33% conversion · –50% complaint cost · –25% returns · +15 NPS. Hit all four — and we scale.',
+    lines: [
+      '+33% conversion',
+      '–50% complaint cost',
+      '–25% returns',
+      '+15 NPS',
+    ],
   },
 ];
 
@@ -1333,7 +1553,15 @@ function WinsList({ visibleCount = 5 }) {
           >
             <div className="win-when">{w.when}</div>
             <div className="win-title">{w.title}</div>
-            <div className="win-detail">{w.detail}</div>
+            {w.lines ? (
+              <ul className="win-detail-list">
+                {w.lines.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            ) : (
+              <div className="win-detail">{w.detail}</div>
+            )}
           </div>
         ))}
       </div>
@@ -1392,7 +1620,7 @@ function SustainScale() {
 
       <div className="living-headline">
         Pam becomes a{' '}
-        <span className="highlight-yellow-bg">living system</span> —
+        <span className="highlight-yellow-bg">living system</span>,
         compounding value and information over time.
       </div>
     </>
@@ -1452,19 +1680,19 @@ function SustainFeedback() {
 const VALUE_CARDS = [
   {
     name: 'Integrity',
-    text: 'In every recommendation — backed by data, never a sales pitch.',
+    text: 'In every recommendation, backed by data, never a sales pitch.',
   },
   {
     name: 'Leadership',
-    text: 'In every market it enters — first-mover at the shelf, not the spec sheet.',
+    text: 'In every market it enters, first-mover at the shelf, not the spec sheet.',
   },
   {
     name: 'Ownership',
-    text: 'Across every team it touches — five SBUs, one experience.',
+    text: 'Across every team it touches, five SBUs, one experience.',
   },
   {
     name: 'Trust',
-    text: 'Earned at every single consumer interaction — never assumed.',
+    text: 'Earned at every single consumer interaction, never assumed.',
   },
   {
     name: 'Passion for winning',

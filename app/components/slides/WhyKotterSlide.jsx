@@ -8,7 +8,7 @@ const LINES = [
   { text: 'Every step of the journey.', accent: 'coral' },
 ];
 
-const REVEAL_TIMINGS = [600, 2000, 3600];
+const REVEAL_TIMINGS = [300, 900, 1500];
 
 export default function WhyKotterSlide({ isActive }) {
   const [revealed, setRevealed] = useState(0);

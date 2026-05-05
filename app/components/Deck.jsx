@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Navigation from './Navigation';
 import KotterRow from './KotterRow';
 import KotterContent from './KotterContent';
 // import TitleSlide from './slides/TitleSlide';
 import HookSlide from './slides/HookSlide';
+import HelloBackSlide from './slides/HelloBackSlide';
 import PersonaSlide, { PersonaMeetSlide } from './slides/PersonaSlide';
 // import TeamSlide from './slides/TeamSlide';
 import OpeningSlide from './slides/OpeningSlide';
@@ -28,18 +28,23 @@ import JourneySlide from './slides/JourneySlide';
 //   • 1-8       → Kotter step slide (wheel zoomed into that step)
 const SLIDES = [
   // { id: 'title',   className: 'slide-title',   Component: TitleSlide },
+  { id: 'hello-back', className: 'slide-hello-back', Component: HelloBackSlide },
   { id: 'hook',    className: 'slide-hook',    Component: HookSlide },
   { id: 'persona-meet', className: 'slide-cut', Component: PersonaMeetSlide },
   { id: 'persona',      className: 'slide-voicemail', Component: PersonaSlide },
   // { id: 'team',    className: 'slide-team',    Component: TeamSlide },
   { id: 'opening', className: 'slide-stats', Component: OpeningSlide },
   { id: 'cant-blame', className: 'slide-cantblame', Component: CantBlameSlide },
-  { id: 'last-sem', className: 'slide-rebrand', Component: LastSemSlide },
-  { id: 'today',    className: 'slide-pamplus',    Component: TodaySlide },
+  { id: 'last-sem-1', className: 'slide-rebrand', Component: LastSemSlide, stage: 1 },
+  { id: 'last-sem-2', className: 'slide-rebrand', Component: LastSemSlide, stage: 2 },
+  { id: 'today-phone',   className: 'slide-pamplus', Component: TodaySlide, panel: 0 },
+  { id: 'today-laptop',  className: 'slide-pamplus', Component: TodaySlide, panel: 1 },
+  { id: 'today-glasses', className: 'slide-pamplus', Component: TodaySlide, panel: 2 },
+  { id: 'today',         className: 'slide-pamplus', Component: TodaySlide },
   { id: 'why-kotter', className: 'slide-why-kotter', Component: WhyKotterSlide },
   // { id: 'why',     className: 'slide-why',     Component: WhySlide },
 
-  { id: 'roadmap-overview', className: 'slide-kotter', Component: KotterOverviewSlide, kotterStep: 0 },
+  { id: 'roadmap-overview', className: 'slide-kotter slide-kotter-overview', Component: KotterOverviewSlide, kotterStep: 0 },
 
   // Step 1 · The Fit
   { id: 'step-1-fit',       className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 1, kotterVariant: 'fit' },
@@ -58,9 +63,12 @@ const SLIDES = [
   { id: 'step-4-team-3',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'pyramid-3' },
   { id: 'step-4-team-4',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'pyramid-4' },
   { id: 'step-4-team-5',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'pyramid-5' },
+  { id: 'step-4-kotter',    className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'kotter' },
   { id: 'step-4-adkar',     className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'adkar' },
+  { id: 'step-4-frameworks',className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 4, kotterVariant: 'frameworks' },
 
   // Step 5 · The Risks
+  { id: 'step-5-wbs-full',  className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'wbs-full' },
   { id: 'step-5-wbs',       className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'wbs' },
   { id: 'step-5-gantt',     className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'gantt' },
   { id: 'step-5-network',   className: 'slide-kotter', Component: EmptyKotterSlide, kotterStep: 5, kotterVariant: 'network' },
@@ -141,16 +149,16 @@ export default function Deck() {
         lastKotterStepRef.current = targetKotter;
 
         // Phase 3 · show content after zoom-in completes
-        const t2 = setTimeout(() => setShowContent(true), 700);
+        const t2 = setTimeout(() => setShowContent(true), 320);
         timeoutsRef.current.push(t2);
-      }, 500);
+      }, 220);
       timeoutsRef.current.push(t1);
     } else {
       // Direct transition
       setDisplayStep(targetKotter);
       lastKotterStepRef.current = targetKotter;
       if (targetKotter > 0) {
-        const t = setTimeout(() => setShowContent(true), 800);
+        const t = setTimeout(() => setShowContent(true), 350);
         timeoutsRef.current.push(t);
       }
     }
@@ -176,8 +184,33 @@ export default function Deck() {
         setIndex(SLIDES.length - 1);
       }
     };
+
+    // Right-click → next, Left-click → previous (anywhere on screen).
+    // Interactive elements (buttons, links, inputs, video controls) still
+    // get their click; we only navigate when the click lands on plain
+    // background.
+    const isInteractive = (el) =>
+      el && el.closest && el.closest('button, a, input, textarea, select, video, [role="button"]');
+
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      setIndex((i) => Math.min(i + 1, SLIDES.length - 1));
+    };
+
+    const handleClick = (e) => {
+      if (e.button !== 0) return;
+      if (isInteractive(e.target)) return;
+      setIndex((i) => Math.max(i - 1, 0));
+    };
+
     window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
+    window.addEventListener('contextmenu', handleContextMenu);
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      window.removeEventListener('contextmenu', handleContextMenu);
+      window.removeEventListener('click', handleClick);
+    };
   }, []);
 
   return (
@@ -192,13 +225,13 @@ export default function Deck() {
 
       <div className="deck">
         {SLIDES.map((slide, i) => {
-          const { Component, className, stage } = slide;
+          const { Component, className, stage, panel } = slide;
           return (
             <div
               key={slide.id}
               className={`slide ${className || ''} ${i === index ? 'active' : ''}`}
             >
-              <Component isActive={i === index} stage={stage} />
+              <Component isActive={i === index} stage={stage} panel={panel} />
             </div>
           );
         })}
@@ -219,13 +252,6 @@ export default function Deck() {
       <div className="slide-counter">
         {String(index + 1).padStart(2, '0')} / {String(SLIDES.length).padStart(2, '0')}
       </div>
-
-      <Navigation
-        onPrev={() => setIndex((i) => Math.max(i - 1, 0))}
-        onNext={() => setIndex((i) => Math.min(i + 1, SLIDES.length - 1))}
-        canGoPrev={index > 0}
-        canGoNext={index < SLIDES.length - 1}
-      />
     </>
   );
 }

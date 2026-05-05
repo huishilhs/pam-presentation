@@ -32,7 +32,7 @@ const PERSONAS = [
     first: 'Jessica',
     role: 'Marketing Manager',
     status: 'Active',
-    friction: 'Too Much Choice',
+    friction: 'Too Many Choices',
     traits: ['Research-driven', 'Time-poor'],
     quote: '20 razors on the shelf. I have no idea which is which.',
     recommendation: 'UX streamlining',
@@ -53,7 +53,7 @@ const PERSONAS = [
   },
 ];
 
-const REVEAL_TIMINGS = [600, 2400, 3000, 3600];
+const REVEAL_TIMINGS = [300, 900, 1300, 1700];
 
 export default function HookSlide({ isActive }) {
   const [revealed, setRevealed] = useState(0);

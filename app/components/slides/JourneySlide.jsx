@@ -12,19 +12,19 @@ const STAGES = [
   {
     label: 'Compare',
     headline: 'See every detail.',
-    body: 'Side-by-side specs, claims, and ingredients — surfaced the moment you ask.',
+    body: 'Side-by-side specs, claims, and ingredients, surfaced the moment you ask.',
     video: '/Compare_details.mov',
   },
   {
     label: 'Decide',
     headline: 'Real reviews, real time.',
-    body: 'Community comments from people like you — right there at the shelf.',
+    body: 'Community comments from people like you, right there at the shelf.',
     video: '/Review.mov',
   },
   {
     label: 'Use',
     headline: 'Guidance after the buy.',
-    body: 'The angle. The pressure. The technique. Same razor — four days later, no cuts.',
+    body: 'The angle. The pressure. The technique. Same razor, four days later, no cuts.',
     video: '/Laptop.mov',
   },
   {
@@ -36,7 +36,7 @@ const STAGES = [
   {
     label: 'Share',
     headline: 'Speak. Pam listens.',
-    body: 'No forms. No sliders. Just your voice — straight to the brand.',
+    body: 'No forms. No sliders. Just your voice, straight to the brand.',
     video: '/glasses.mp4',
   },
 ];
@@ -58,7 +58,7 @@ export default function JourneySlide() {
           {' '}at every step.
         </h2>
         <p className="journey-sub">
-          One platform. Six moments. Every consumer touchpoint —
+          One platform. Six moments. Every consumer touchpoint,
           from discovery to feedback.
         </p>
       </div>

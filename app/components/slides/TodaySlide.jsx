@@ -12,19 +12,44 @@ const PANELS = [
     label: 'Laptop',
     headline: 'After the purchase.',
     body: 'Watching the angle. The pressure. The technique. Same razor. Four days later. No cuts.',
-    cue: 'Pam+ keeps showing up — every step.',
+    cue: 'Pam+ keeps showing up, every step.',
     video: '/laptop.mov',
   },
   {
     label: 'Smart Glasses',
     headline: 'Leave your comment.',
-    body: 'Captures what you actually used, when, and how. No forms. No five-star sliders. Just your voice.',
-    cue: 'EVERY VOICE - STRAIGHT TO THE BRAND TEAM.',
+    body: 'You become part of a wider community of support, advocates for the same brands and products you use every day. Your voice joins theirs.',
+    cue: 'Every voice, straight to the brand team.',
     video: '/glasses.mp4',
   },
 ];
 
-export default function TodaySlide() {
+export default function TodaySlide({ panel }) {
+  if (typeof panel === 'number' && PANELS[panel]) {
+    const p = PANELS[panel];
+    return (
+      <div className="slide-inner pamplus-slide pamplus-single">
+        <div className="pamplus-single-screen">
+          <video
+            className="pamplus-video"
+            src={p.video}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+          />
+        </div>
+        <div className="pamplus-single-copy">
+          <span className="pamplus-single-label">{p.label}</span>
+          <h2 className="pamplus-single-headline">{p.headline}</h2>
+          <p className="pamplus-single-body">{p.body}</p>
+          <p className="pamplus-single-cue">{p.cue}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="slide-inner pamplus-slide">
       <div className="pamplus-header">

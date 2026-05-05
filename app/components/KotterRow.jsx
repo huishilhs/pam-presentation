@@ -7,7 +7,7 @@ const STEPS = [
   { num: 2, label: 'The Analysis' },
   { num: 3, label: 'The Scope' },
   { num: 4, label: 'The Team' },
-  { num: 5, label: 'The Risks' },
+  { num: 5, label: 'The Plan' },
   { num: 6, label: 'The Proof' },
 ];
 

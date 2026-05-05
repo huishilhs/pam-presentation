@@ -2,32 +2,36 @@
 
 import { useEffect, useState } from 'react';
 
-export default function LastSemSlide({ isActive }) {
-  const [phase, setPhase] = useState(0);
+export default function LastSemSlide({ stage = 1, isActive }) {
+  // The two slide entries (stage 1 and stage 2) cross-fade. To make the
+  // dot→plus morph and tagline reveal feel smooth (using the existing CSS
+  // transitions on .rebrand-symbol-* and .rebrand-tagline), the stage-2
+  // instance briefly renders the stage-1 visual on mount and then upgrades
+  // to stage 2 — that way the class flip plays the morph instead of
+  // appearing already-morphed.
+  const [animatedStage, setAnimatedStage] = useState(1);
 
   useEffect(() => {
     if (!isActive) {
-      setPhase(0);
+      setAnimatedStage(1);
       return;
     }
-    const timers = [
-      setTimeout(() => setPhase(1), 600),    // intro line
-      setTimeout(() => setPhase(2), 1500),   // wordmark in
-      setTimeout(() => setPhase(3), 5000),   // dot morphs to plus
-      setTimeout(() => setPhase(4), 6000),   // tagline + sub
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, [isActive]);
+    if (stage >= 2) {
+      const t = setTimeout(() => setAnimatedStage(2), 120);
+      return () => clearTimeout(t);
+    }
+    setAnimatedStage(1);
+  }, [isActive, stage]);
 
-  const cls = (n) => (phase >= n ? 'is-shown' : '');
+  const isPlus = animatedStage >= 2;
 
   return (
     <div className="slide-inner rebrand-slide">
-      <div className={`rebrand-eyebrow ${cls(1)}`}>
-        Last year, we introduced you to —
+      <div className="rebrand-eyebrow is-shown">
+        Last year, we introduced you to
       </div>
 
-      <div className={`rebrand-mark ${cls(2)} ${phase >= 3 ? 'is-plus' : ''}`}>
+      <div className={`rebrand-mark is-shown ${isPlus ? 'is-plus' : ''}`}>
         <span className="rebrand-pam">Pam</span>
         <span className="rebrand-symbol">
           <span className="rebrand-symbol-dot" />
@@ -36,10 +40,10 @@ export default function LastSemSlide({ isActive }) {
         </span>
       </div>
 
-      <div className={`rebrand-tagline ${cls(4)}`}>
+      <div className={`rebrand-tagline ${isPlus ? 'is-shown' : ''}`}>
         This year, Pam does <strong>more.</strong>
       </div>
-      <div className={`rebrand-sub ${cls(4)}`}>
+      <div className={`rebrand-sub ${isPlus ? 'is-shown' : ''}`}>
         One platform. Every device. Every touchpoint.
       </div>
     </div>

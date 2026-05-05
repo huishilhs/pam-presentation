@@ -61,7 +61,7 @@ export default function RecapSlide() {
           </div>
           <div className="video-label">Customer Journey</div>
           <div className="video-title-text">
-            Pam at every stage — glasses, mobile, web
+            Pam at every stage, glasses, mobile, web
           </div>
         </div>
       </div>

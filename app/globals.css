@@ -45,6 +45,11 @@ html, body {
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+}
+
+*, *::before, *::after {
+  cursor: none !important;
 }
 
 .deck {
@@ -1266,12 +1271,76 @@ p.body {
   padding: 0;
 }
 
-.kotter-overview-header {
-  text-align: center;
+/* Match why-kotter outer padding so the recap lines stay
+   in EXACTLY the same viewport position across the two slides. */
+.slide.slide-kotter-overview {
+  padding: 5vw 6vw;
 }
 
-.kotter-overview-header .eyebrow {
-  margin-bottom: 0.8rem;
+/* When transitioning between why-kotter and kotter-overview, the
+   incoming slide snaps to full opacity instantly so the recap stays
+   fully opaque; the outgoing slide still fades out over 0.7s. */
+.slide.slide-why-kotter.active,
+.slide.slide-kotter-overview.active {
+  transition: opacity 0s;
+}
+
+.slide-kotter-overview .slide-inner.kotter-overview {
+  max-width: 1900px;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: block;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* Recap lines — mirror .one-ai-slide / .one-ai-line exactly so
+   they appear identical to the previous slide. */
+.kotter-overview-recap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(0.8rem, 2vh, 2rem);
+  min-height: 75vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.kotter-overview-recap-line {
+  font-size: clamp(3.8rem, 8.2vw, 7.8rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--blue);
+  display: inline-block;
+  padding: 0 0.18em;
+  white-space: nowrap;
+}
+
+.kotter-overview-recap-line--yellow {
+  background: linear-gradient(180deg, transparent 62%, var(--yellow) 62%);
+}
+
+.kotter-overview-recap-line--cyan {
+  background: linear-gradient(180deg, transparent 62%, var(--cyan-soft) 62%);
+}
+
+.kotter-overview-recap-line--coral {
+  background: linear-gradient(180deg, transparent 62%, #FFC2C7 62%);
+}
+
+/* Header overlay */
+.kotter-overview-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 2;
 }
 
 .kotter-overview-header h2 {
@@ -1282,10 +1351,16 @@ p.body {
   color: var(--blue);
 }
 
+/* Caption overlay */
 .kotter-overview-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   text-align: center;
   max-width: 60ch;
   margin: 0 auto;
+  z-index: 2;
 }
 
 .kotter-overview-caption p {
@@ -1560,7 +1635,7 @@ p.body {
   justify-content: center;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.7s var(--transition), padding-top 0.7s var(--transition);
+  transition: opacity 0.35s var(--transition), padding-top 0.35s var(--transition);
   z-index: 3;
   padding-top: 1.5vh;
 }
@@ -1582,7 +1657,7 @@ p.body {
   justify-content: center;
   gap: 0;
   transform-origin: center center;
-  transition: transform 0.9s var(--transition);
+  transition: transform 0.45s var(--transition);
   padding: 2rem 3rem;
 }
 
@@ -1698,7 +1773,7 @@ p.body {
   z-index: 5;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s var(--transition), transform 0.5s var(--transition);
+  transition: opacity 0.28s var(--transition), transform 0.28s var(--transition);
   pointer-events: none;
   padding: 0 2rem;
 }
@@ -2003,6 +2078,231 @@ p.body {
   opacity: 0.85;
 }
 
+.pyramid-tier-detail-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* --- Kotter 8-step detailed cards (matches ADKAR style) --- */
+.kotter-detail-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.9rem;
+  align-items: stretch;
+  margin-bottom: 0.6rem;
+  width: 100%;
+}
+
+/* Kotter cards keep the deep navy background (matching the bridge's
+   blue Kotter column). Just tweak typography. */
+.kotter-detail-row .adkar-detail-card {
+  padding: 1.5rem 1.2rem 1.6rem;
+}
+
+.kotter-detail-row .adkar-detail-stage {
+  font-size: 0.92rem;
+  letter-spacing: 0.22em;
+  margin-bottom: 0.55rem;
+}
+
+.kotter-detail-row .adkar-detail-letter {
+  font-size: 3.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.kotter-detail-row .adkar-detail-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.7rem;
+}
+
+.kotter-detail-row .adkar-detail-body {
+  font-size: 1.1rem;
+  line-height: 1.45;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+/* ADKAR cards use a light cyan-tinted surface to mirror the bridge's
+   cyan ADKAR column (light blue). */
+.adkar-detail-row .adkar-detail-card {
+  background: #eaf5fb;
+  color: var(--blue);
+  border: 1px solid rgba(0, 169, 224, 0.25);
+  box-shadow: 0 18px 40px -28px rgba(0, 169, 224, 0.4);
+}
+
+.adkar-detail-row .adkar-detail-title {
+  color: var(--blue);
+}
+
+.adkar-detail-row .adkar-detail-body {
+  color: var(--text-muted);
+  border-bottom-color: rgba(0, 46, 145, 0.12);
+}
+
+.adkar-detail-row .adkar-detail-body strong {
+  color: var(--blue);
+}
+
+.adkar-detail-row .adkar-detail-list li {
+  color: var(--blue);
+}
+
+.kotter-tone-blue   { --adkar-color: #2c79e0; }
+.kotter-tone-teal   { --adkar-color: #2bb18a; }
+.kotter-tone-yellow { --adkar-color: #ffd166; }
+.kotter-tone-orange { --adkar-color: #f08a2c; }
+.kotter-tone-coral  { --adkar-color: #ef7361; }
+.kotter-tone-pink   { --adkar-color: #ff4d8c; }
+.kotter-tone-purple { --adkar-color: #8b6cff; }
+.kotter-tone-sky    { --adkar-color: #4a90e2; }
+
+/* --- Kotter ↓ vs ADKAR ↑ bridge slide --- */
+.bridge-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 2rem;
+  align-items: stretch;
+  margin-top: 2rem;
+}
+
+.bridge-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.4rem 2rem 2.6rem;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  text-align: center;
+  box-shadow:
+    0 26px 60px -32px rgba(0, 46, 145, 0.45),
+    0 2px 0 rgba(255, 255, 255, 0.9) inset;
+  overflow: hidden;
+}
+
+.bridge-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--bridge-color);
+}
+
+.bridge-card-kotter {
+  --bridge-color: var(--blue);
+  background:
+    radial-gradient(120% 100% at 50% -20%, rgba(0, 46, 145, 0.16), transparent 60%),
+    var(--white);
+}
+
+.bridge-card-adkar {
+  --bridge-color: var(--cyan);
+  background:
+    radial-gradient(120% 100% at 50% 120%, rgba(0, 169, 224, 0.22), transparent 60%),
+    var(--white);
+}
+
+.bridge-card-tag {
+  font-size: 1.05rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--bridge-color);
+  font-weight: 800;
+}
+
+.bridge-card-title {
+  font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: var(--bridge-color);
+}
+
+.bridge-card-arrow {
+  width: clamp(48px, 4vw, 70px);
+  height: clamp(96px, 8vw, 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 8px 14px rgba(220, 38, 38, 0.3));
+}
+
+.bridge-card-arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+.bridge-card-detail {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  font-weight: 500;
+  max-width: 32ch;
+}
+
+.bridge-meet {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bridge-meet-label {
+  font-size: 0.9rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 700;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* ADKAR detail cards zoom-in when arriving from the bridge slide */
+@keyframes adkarZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.adkar-zoom-in {
+  animation: adkarZoomIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: center top;
+}
+
+.pyramid-tier-citations {
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-weight: 500;
+  opacity: 0.7;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.pyramid-tier-citation {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.pyramid-tier-citation:hover {
+  opacity: 1;
+}
+
 .pyramid-tier-title {
   font-size: 1.45rem;
   font-weight: 800;
@@ -2020,45 +2320,108 @@ p.body {
 .pyramid-tier-4 .pyramid-tier-detail,
 .pyramid-tier-5 .pyramid-tier-detail { color: var(--text-muted); }
 
-/* --- Growth strategy cards (Step 3 variant a) --- */
-.growth-strategy-grid {
+/* --- Growth flow (Step 1) --- */
+.growth-flow {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.1rem;
-  margin-bottom: 0.6rem;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap: 1.4rem;
+  align-items: stretch;
+  margin: 2.6rem 0 1.6rem;
 }
 
-.growth-strategy-card {
-  padding: 1.6rem 1.5rem 1.8rem;
-  border-radius: 14px;
+.growth-pillar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-align: center;
+  padding: 2.2rem 1.4rem 2rem;
+  border-radius: 22px;
+  border: 1px solid var(--border);
   background: var(--white);
-  border: 1.5px solid var(--border);
-  border-top: 4px solid var(--yellow);
+  box-shadow:
+    0 26px 60px -32px rgba(0, 46, 145, 0.45),
+    0 2px 0 rgba(255, 255, 255, 0.9) inset;
+  overflow: hidden;
+  transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
 }
 
-.growth-strategy-num {
-  font-size: 0.88rem;
-  letter-spacing: 0.28em;
+.growth-pillar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--pillar-color);
+}
+
+.growth-pillar:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 36px 80px -32px rgba(0, 46, 145, 0.55),
+    0 2px 0 rgba(255, 255, 255, 0.9) inset;
+}
+
+.growth-pillar-step {
+  font-size: 0.95rem;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--cyan);
+  color: var(--pillar-color);
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  margin-bottom: 0.7rem;
+  opacity: 0.75;
 }
 
-.growth-strategy-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--blue);
-  margin-bottom: 0.65rem;
-  line-height: 1.15;
+.growth-pillar-title {
+  font-size: clamp(2.2rem, 3.4vw, 3.1rem);
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  color: var(--pillar-color);
 }
 
-.growth-strategy-detail {
-  font-size: 1.35rem;
-  color: var(--text-muted);
-  line-height: 1.45;
+.growth-pillar-blue {
+  --pillar-color: var(--blue);
+  background:
+    radial-gradient(120% 100% at 50% -20%, rgba(0, 46, 145, 0.16), transparent 60%),
+    var(--white);
+}
+
+.growth-pillar-cyan {
+  --pillar-color: var(--cyan);
+  background:
+    radial-gradient(120% 100% at 50% -20%, rgba(0, 169, 224, 0.22), transparent 60%),
+    var(--white);
+}
+
+.growth-pillar-yellow {
+  --pillar-color: #b88c00;
+  background:
+    radial-gradient(120% 100% at 50% -20%, rgba(255, 220, 0, 0.45), transparent 60%),
+    var(--white);
+}
+
+.growth-pillar-yellow::before {
+  background: var(--yellow);
+}
+
+.growth-flow-arrow {
+  width: clamp(64px, 6.5vw, 110px);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 8px 14px rgba(220, 38, 38, 0.32));
+}
+
+.growth-flow-arrow svg {
+  width: 100%;
+  height: 100%;
 }
 
 /* --- Triangle layout (Step 3 variant b) --- */
@@ -3108,6 +3471,22 @@ p.body {
   text-transform: uppercase;
 }
 
+.wbs-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.wbs-full img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 10px;
+}
+
 .wbs-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -3238,6 +3617,22 @@ p.body {
   font-size: 1.9rem;
   font-weight: 800;
   color: #dc2626;
+}
+
+.network-image-wrap {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  margin: 0.6rem calc(50% - 50vw) 0.4rem;
+}
+
+.network-image {
+  width: 100%;
+  max-width: min(2200px, 100vw);
+  height: auto;
+  max-height: 92vh;
+  object-fit: contain;
+  display: block;
 }
 
 /* --- Critical path stats (Step 6 variant c) --- */
@@ -3544,6 +3939,20 @@ p.body {
   font-size: 1.45rem;
   color: var(--text-muted);
   line-height: 1.5;
+}
+
+.win-detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 1.45rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
 .wins-horizontal::before {
@@ -4437,6 +4846,23 @@ p.body {
   line-height: 1.3;
 }
 
+/* --- Hello-back interstitial · simple centered greeting --- */
+.slide-hello-back .slide-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hello-back-title {
+  font-size: clamp(2.6rem, 5.5vw, 5rem);
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  max-width: 22ch;
+}
+
 /* --- SLIDE 2 · Photo placeholder + caption --- */
 .slide-cut .slide-inner {
   display: flex;
@@ -4533,7 +4959,7 @@ p.body {
 .phone-frame {
   position: relative;
   width: min(460px, 38vw);
-  aspect-ratio: 9 / 18.5;
+  aspect-ratio: 9 / 19.5;
   background: #0a0a0a;
   border-radius: 56px;
   padding: 14px;
@@ -4652,20 +5078,160 @@ p.body {
   margin-top: 1px;
 }
 
-.voicemail-list {
+/* --- iOS Recents (dark) --- */
+.phone-screen--dark {
+  background: #000;
+  color: #fff;
+  padding: 56px 0 0;
+}
+
+.phone-status-bar--dark {
+  color: #fff;
+  padding: 0 22px 6px;
+}
+
+.phone-status-bar--dark .phone-status-bars,
+.phone-status-bar--dark .phone-status-battery {
+  background: #fff;
+}
+
+.phone-status-4g {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+  margin: 0 2px;
+}
+
+.recents-toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0.5rem 0.85rem 0.4rem;
+  gap: 0.4rem;
+}
+
+.recents-pill {
+  justify-self: start;
+  padding: 0.35rem 0.85rem;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #fff;
+  border: 0.5px solid rgba(255, 255, 255, 0.05);
+}
+
+.recents-pill-icon {
+  justify-self: end;
+  padding: 0.45rem 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recents-menu {
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  background:
+    linear-gradient(#fff, #fff) 0 0 / 14px 1.5px no-repeat,
+    linear-gradient(#fff, #fff) 0 50% / 11px 1.5px no-repeat,
+    linear-gradient(#fff, #fff) 0 100% / 8px 1.5px no-repeat;
+}
+
+.recents-segmented {
+  justify-self: center;
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 999px;
+  padding: 3px;
+  border: 0.5px solid rgba(255, 255, 255, 0.05);
+}
+
+.recents-segment {
+  padding: 0.3rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+  letter-spacing: -0.01em;
+}
+
+.recents-segment.is-active {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.recents-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.025em;
+  padding: 0.3rem 1rem 0.4rem;
+}
+
+.recents-search {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.3rem 0.85rem 0.5rem;
+  padding: 0.45rem 0.7rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.recents-search-icon {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  position: relative;
+}
+
+.recents-search-icon::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.55);
+  bottom: -3px;
+  right: -3px;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.recents-search-text {
+  flex: 1;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 400;
+}
+
+.recents-search-mic {
+  display: inline-block;
+  width: 8px;
+  height: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 4px;
+}
+
+.recents-list {
   list-style: none;
-  padding: 0.2rem 0 0;
+  padding: 0;
   margin: 0;
   overflow-y: auto;
   flex: 1;
 }
 
-.voicemail-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.55rem;
-  padding: 0.65rem 0.4rem;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+.recents-item {
+  display: grid;
+  grid-template-columns: 38px 1fr auto auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.95rem;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
   opacity: 0;
   transform: translateY(-6px);
   transition:
@@ -4673,71 +5239,134 @@ p.body {
     transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.voicemail-item.is-shown {
+.recents-item.is-shown {
   opacity: 1;
   transform: translateY(0);
 }
 
-.voicemail-bullet {
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
+.recents-avatar {
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: #007aff;
-  margin-top: 0.55rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
-.voicemail-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
+.recents-meta {
   min-width: 0;
 }
 
-.voicemail-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 0.5rem;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-.voicemail-caller {
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: #111;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.voicemail-time {
-  font-size: 0.78rem;
-  color: rgba(0, 0, 0, 0.5);
-  font-weight: 500;
-  flex-shrink: 0;
-}
-
-.voicemail-row-sub {
-  font-weight: 500;
-}
-
-.voicemail-preview {
-  font-size: 0.85rem;
-  color: rgba(0, 0, 0, 0.55);
-  font-style: italic;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.voicemail-duration {
-  font-size: 0.78rem;
-  color: rgba(0, 0, 0, 0.45);
+.recents-name {
+  font-size: 0.95rem;
   font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recents-sub {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  margin-top: 1px;
+}
+
+.recents-arrow {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.recents-arrow--out {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.recents-arrow--in {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.recents-time {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
-  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.recents-info {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.2px solid rgba(0, 122, 255, 0.85);
+  color: rgba(0, 122, 255, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-style: italic;
+  font-family: Georgia, serif;
+}
+
+.recents-tabbar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  background: rgba(28, 28, 30, 0.92);
+  padding: 0.5rem 0.4rem 0.7rem;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+  margin-top: auto;
+}
+
+.recents-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.recents-tab.is-active {
+  color: #007aff;
+}
+
+.recents-tab-icon {
+  position: relative;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.recents-tab-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.recents-tab-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #ff3b30;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* --- SLIDE 4 · Stats reveal --- */
@@ -5113,6 +5742,79 @@ p.body {
   width: 100%;
 }
 
+/* --- Single-panel hero (one device per slide) --- */
+.pamplus-single {
+  display: grid !important;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  max-width: 1800px;
+}
+
+.pamplus-single-screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
+  border: 1.5px solid var(--cyan);
+  box-shadow:
+    0 32px 80px -28px rgba(0, 46, 145, 0.55),
+    0 0 0 2px rgba(0, 169, 224, 0.25);
+}
+
+.pamplus-single-screen .pamplus-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pamplus-single-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  padding-right: 1rem;
+}
+
+.pamplus-single-label {
+  font-size: clamp(1.05rem, 1.2vw, 1.35rem);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 800;
+}
+
+.pamplus-single-headline {
+  font-size: clamp(2.8rem, 4.4vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--blue);
+  margin: 0;
+}
+
+.pamplus-single-body {
+  font-size: clamp(1.55rem, 1.7vw, 1.95rem);
+  line-height: 1.45;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin: 0;
+  max-width: 32ch;
+}
+
+.pamplus-single-cue {
+  font-size: clamp(1.15rem, 1.25vw, 1.45rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: var(--cyan);
+  line-height: 1.3;
+  margin: 0.4rem 0 0;
+}
+
 .pamplus-header {
   text-align: center;
   display: flex;
@@ -5472,7 +6174,8 @@ p.body {
   .pyramid-tier-content { grid-template-columns: 1fr; gap: 0.3rem; }
   .culture-grid { grid-template-columns: 1fr; }
   .stakeholder-grid { grid-template-columns: 1fr; min-height: 0; }
-  .growth-strategy-grid { grid-template-columns: 1fr; }
+  .growth-flow { grid-template-columns: 1fr; gap: 0.6rem; }
+  .growth-flow-arrow { transform: rotate(90deg); }
   .triangle-layout { grid-template-columns: 1fr; }
   .triangle-visual { max-width: 320px; }
   .risk-sources-grid { grid-template-columns: 1fr 1fr; }
